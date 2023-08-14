@@ -83,7 +83,7 @@ paginate = 5
 
     [languages.en.params.logo]
       logoText = "Elvir's Blog"
-      logoHomeLink = "/"
+      logoHomeLink = "https://elvarivle.github.io/Blog/"
 
     [languages.en.menu]
       [[languages.en.menu.main]]
