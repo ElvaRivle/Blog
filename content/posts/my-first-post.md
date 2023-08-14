@@ -1,8 +1,8 @@
 ---
 title: "My First Post"
 date: 2023-08-14T17:13:20+02:00
-tags: ["Deployment", "CI/CD"]
-description: ""
+tags: ["tag1", "tag2"]
+description: "Test Description"
 ---
 
 ## Introduction
