@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "/Blog"
 languageCode = "en-us"
 title = "Elvir's Blog"
 # Add it only if you keep the theme in the `themes` directory.
