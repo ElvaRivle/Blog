@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "https://elvarivle.github.io/Blog/"
 languageCode = "en-us"
 title = "Elvir's Blog"
 # Add it only if you keep the theme in the `themes` directory.
@@ -83,7 +83,7 @@ paginate = 5
 
     [languages.en.params.logo]
       logoText = "Elvir's Blog"
-      logoHomeLink = "/"
+      logoHomeLink = "/Blog"
 
     [languages.en.menu]
       [[languages.en.menu.main]]
