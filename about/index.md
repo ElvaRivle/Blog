@@ -20,7 +20,7 @@ Languages and frameworks are just tools at the end of the day.
 I'm currently working as a software developer in Bloomteq where I learn a bunch of new things on a weekly basis.
 By starting this blog, I hope to solidify my understanding of the topics I learn
 and to spark some constructive comments.
-That's not the only goal. I also hope that you will benefit greatly from the topics mentioned in this blog.
+That's not the only goal. I also hope that you will benefit greatly from the topics mentioned here.
 
 Enjoy!
 
