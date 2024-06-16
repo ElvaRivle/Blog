@@ -22,7 +22,7 @@ By starting this blog, I hope to solidify my understanding of the topics I learn
 and to spark some constructive comments.
 That's not the only goal. I also hope that you will benefit greatly from the topics mentioned here.
 
-Enjoy!
+Hope you'll enjoy!
 
 <hr>
 
