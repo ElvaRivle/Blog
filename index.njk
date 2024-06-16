@@ -1,7 +1,9 @@
 ---
 layout: layouts/home.njk
 ---
-<p>This is where you write a quick intro about yourself or the blog or both.</p>
+<p>
+  Passionate software developer trying to constantly learn something new and spread the gained knowledge.
+</p>
 <h2>Recent Posts</h2>
 {% set maxPosts = collections.posts.length | min(3) %}
 {% set postslist = collections.posts | head(-3) %}
