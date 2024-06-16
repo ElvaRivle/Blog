@@ -4,9 +4,13 @@ layout: layouts/home.njk
 <p>
   Passionate software developer trying to constantly learn something new and spread the gained knowledge.
 </p>
+<hr>
 <h2>Recent Posts</h2>
-{% set maxPosts = collections.posts.length | min(3) %}
-{% set postslist = collections.posts | head(-3) %}
+{% set visiblePosts = 4 %}
+{% set maxPosts = collections.posts.length | min(visiblePosts) %}
+{% set postslist = collections.posts | head(-visiblePosts) %}
 {% set postslistCounter = collections.posts | length %}
 {% include "postslist.njk" %}
-<p>More posts can be found in <a href="{{ '/posts/' | url }}">the archive</a>.</p>
+{% if collections.posts.length > visiblePosts %}
+<p class="more-posts-notification">More posts can be found in <a href="{{ '/posts/' | url }}">the archive</a>.</p>
+{% endif %}
