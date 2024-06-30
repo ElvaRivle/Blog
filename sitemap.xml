@@ -2,72 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://elvarivle.github.com/posts/firstpost/</loc>
+    <loc>https://elvarivle.github.com/Blog/posts/firstpost/</loc>
     <lastmod>01 May 2018</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/posts/secondpost/</loc>
+    <loc>https://elvarivle.github.com/Blog/posts/secondpost/</loc>
     <lastmod>04 Jul 2018</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/posts/thirdpost/</loc>
+    <loc>https://elvarivle.github.com/Blog/posts/thirdpost/</loc>
     <lastmod>24 Aug 2018</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/posts/fourthpost/</loc>
+    <loc>https://elvarivle.github.com/Blog/posts/fourthpost/</loc>
     <lastmod>30 Sep 2018</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/about/</loc>
+    <loc>https://elvarivle.github.com/Blog/about/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/posts/</loc>
+    <loc>https://elvarivle.github.com/Blog/posts/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/</loc>
+    <loc>https://elvarivle.github.com/Blog/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/page-list/</loc>
+    <loc>https://elvarivle.github.com/Blog/page-list/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/search/</loc>
+    <loc>https://elvarivle.github.com/Blog/search/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/tags/</loc>
+    <loc>https://elvarivle.github.com/Blog/tags/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/tags/another-tag/</loc>
+    <loc>https://elvarivle.github.com/Blog/tags/another-tag/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/tags/number-2/</loc>
+    <loc>https://elvarivle.github.com/Blog/tags/second-tag/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/tags/second-tag/</loc>
+    <loc>https://elvarivle.github.com/Blog/tags/posts-with-two-tags/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
   <url>
-    <loc>https://elvarivle.github.com/tags/posts-with-two-tags/</loc>
+    <loc>https://elvarivle.github.com/Blog/tags/number-2/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
 </urlset>
