@@ -6,13 +6,13 @@ templateClass: tmpl-post
 
 <div class="contact-in-about">
     <a href="https://www.linkedin.com/in/elvir-vlahovljak-9505a3216/" target="_blank" rel="noopener noreferrer">
-        <img src="/img/linkedin-icon.png" alt="LI" width="48" height="48" />
+        <img src="{{ '/img/linkedin-icon.png' | url }}" alt="LI" width="48" height="48" />
     </a>
     <a href="https://www.github.com/ElvaRivle" target="_blank" rel="noopener noreferrer">
-        <img src="/img/github-icon.png" alt="GI" width="48" height="48" />
+        <img src="{{ '/img/github-icon.png' | url }}" alt="GI" width="48" height="48" />
     </a>
     <a href="mailto:elvirvlahovljak@gmail.com">
-        <img src="/img/gmail-icon.png" alt="GI" width="48" height="48" />
+        <img src="{{ '/img/gmail-icon.png' | url }}" alt="GI" width="48" height="48" />
     </a>
 </div>
 
