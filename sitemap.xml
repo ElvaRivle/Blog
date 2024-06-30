@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://elvarivle.github.com/posts/firstpost/</loc>
+    <lastmod>01 May 2018</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/posts/secondpost/</loc>
+    <lastmod>04 Jul 2018</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/posts/thirdpost/</loc>
+    <lastmod>24 Aug 2018</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/posts/fourthpost/</loc>
+    <lastmod>30 Sep 2018</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/about/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/posts/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/page-list/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/search/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/tags/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/tags/another-tag/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/tags/second-tag/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/tags/number-2/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/tags/posts-with-two-tags/</loc>
+    <lastmod>30 Jun 2024</lastmod>
+  </url>
+</urlset>
