@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     const results = document.getElementById('results');
     let posts = [];
     let search_term = '';
-    fetch("/feed/feed.json")
+    fetch("/Blog/feed/feed.json")
         .then(res => res.json())
         .then(data => {
             posts = data?.items;
