@@ -1,0 +1,45 @@
+{
+  "title": "Elvir's Blog",
+  "url": "https://elvarivle.github.com/Blog",
+  "language": "en",
+  "description": "Passionate software developer, constantly learning and spreading the gained knowledge",
+  "feed": {
+    "subtitle": "Passionate software developer, constantly learning and spreading the gained knowledge",
+    "filename": "feed.xml",
+    "path": "/feed/feed.xml",
+    "id": "https://example.com/"
+  },
+  "jsonfeed": {
+    "path": "/feed/feed.json",
+    "url": "https://example.com/feed/feed.json"
+  },
+  "author": {
+    "name": "Elvir Vlahovljak",
+    "email": "elvirvlahovljak@gmail.com",
+    "url": "https://elvarivle.github.com/Blog/about-me/"
+  },
+  "nav": [{
+    "title": "home",
+    "url": "/"
+  },
+  {
+    "title": "posts",
+    "url": "/posts"
+  },
+  {
+    "title": "about",
+    "url": "/about"
+  },
+  {
+    "title": "rss",
+    "url": "/feed/feed.xml"
+  },
+  {
+    "title": "search",
+    "url": "/search"
+  }],
+  "config": {
+    "showDateList": true,
+    "showDatePost": true
+  }
+}
