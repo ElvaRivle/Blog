@@ -101,3 +101,11 @@ blockquote p {
 .more-posts-notification {
   margin-top: 30px;
 }
+
+.contact-in-about {
+  margin-top: 20px;
+}
+
+.contact-in-about > * {
+  margin-right: 10px;
+}

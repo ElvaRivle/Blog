@@ -7,6 +7,7 @@ const markdownItAnchor = require("markdown-it-anchor");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginNavigation = require("@11ty/eleventy-navigation");
+const { PassThrough } = require("stream");
 
 module.exports = function(eleventyConfig) {
   // Copy the `img` and `css` folders to the output
@@ -91,6 +92,7 @@ module.exports = function(eleventyConfig) {
   });
 
   return {
+    passthroughFileCopy: true,
     // Control which files Eleventy will process
     // e.g.: *.md, *.njk, *.html, *.liquid
     templateFormats: [

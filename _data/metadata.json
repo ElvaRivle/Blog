@@ -31,10 +31,6 @@
     "url": "/about"
   },
   {
-    "title": "contact",
-    "url": "/contact"
-  },
-  {
     "title": "rss",
     "url": "/feed/feed.xml"
   },
