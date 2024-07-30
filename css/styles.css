@@ -1,5 +1,5 @@
 html {
-  max-width: 600px;
+  max-width: 1200px;
   margin: 0 auto;
   background-color: #282a36;
   color: #fff
@@ -13,7 +13,8 @@ body {
 }
 
 header {
-  display: flex
+  display: flex;
+  justify-content: center;
 }
 
 header ul {
@@ -108,4 +109,8 @@ blockquote p {
 
 .contact-in-about > * {
   margin-right: 10px;
+}
+
+.active > a {
+  text-decoration: underline;
 }
