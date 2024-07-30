@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  greenmail:
+    image: greenmail/standalone:latest
+    hostname: mailserver.com
+    environment:
+      - JAVA_OPTS=-Dgreenmail.verbose
+    ports:
+      - "9025:3025" # SMTP
+      - "9110:3110" # POP3
+      - "9143:3143" # IMAP
+      - "9465:3465" # SMTPS
+      - "9993:3993" # IMAPS
+      - "9995:3995" # POP3S
+      - "9003:8080" # API
+
+  postman:
+    image: postman/newman:alpine
+    command:
+      run GreenMail_Users.postman_collection.json -k
+    volumes:
+      - ./conf/postman:/etc/newman
+    restart: on-failure:10
+    depends_on:
+      - greenmail
+
+
+  roundcubemail:
+    image: roundcube/roundcubemail:latest
+    volumes:
+      - ./data/roundcube/www:/var/www/html
+      - ./data/roundcube/db/sqlite:/var/roundcube/db
+    ports:
+      - "9002:80"
+    environment:
+      - ROUNDCUBEMAIL_DB_TYPE=sqlite
+      - ROUNDCUBEMAIL_SKIN=elastic
+      - ROUNDCUBEMAIL_DEFAULT_HOST=mailserver.com
+      - ROUNDCUBEMAIL_SMTP_SERVER=mailserver.com
+      - ROUNDCUBEMAIL_DEFAULT_PORT=3143
+      - ROUNDCUBEMAIL_SMTP_PORT=3025

@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "3a02d3c2-da38-4d87-8fd4-568a4ed4aa5a",
+		"name": "GreenMail Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30622182"
+	},
+	"item": [
+		{
+			"name": "Zeppelin User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"mail@mailserver.com\",\n  \"login\": \"zeppelin-local\",\n  \"password\": \"zeppelin-local\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mailserver.com:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"mailserver.com"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Zeppelin Auto User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"automail@mailserver.com\",\n  \"login\": \"auto-zeppelin-local\",\n  \"password\": \"zeppelin-local\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mailserver.com:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"mailserver.com"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cat External Mock",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"cat@mailserver.com\",\n  \"login\": \"cat-local\",\n  \"password\": \"cat-local\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mailserver.com:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"mailserver.com"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Machinemax External Mock",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"machinemax@mailserver.com\",\n  \"login\": \"machinemax-local\",\n  \"password\": \"machinemax-local\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mailserver.com:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"mailserver.com"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cat Success",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"cat-success@mailserver.com\",\n  \"login\": \"cat-local-success\",\n  \"password\": \"cat-local\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mailserver.com:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"mailserver.com"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cat Failure",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"cat-failure@mailserver.com\",\n  \"login\": \"cat-local-failure\",\n  \"password\": \"cat-local\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mailserver.com:8080/api/user",
+					"protocol": "http",
+					"host": [
+						"mailserver.com"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
