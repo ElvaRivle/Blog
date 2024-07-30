@@ -8,6 +8,7 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginNavigation = require("@11ty/eleventy-navigation");
 const { PassThrough } = require("stream");
+const readingTime = require('eleventy-plugin-reading-time');
 
 module.exports = function(eleventyConfig) {
   // Copy the `img` and `css` folders to the output
@@ -19,6 +20,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(pluginSyntaxHighlight);
   eleventyConfig.addPlugin(pluginNavigation);
+  eleventyConfig.addPlugin(readingTime);
+
 
   // https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
   eleventyConfig.addFilter('readableDateString', (dateObj) => {

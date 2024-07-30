@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="{{ '/css/styles.css' | url }}">
     <link rel="alternate" href="{{ metadata.feed.path | url }}" type="application/atom+xml" title="{{ metadata.title }}">
     <link rel="alternate" href="{{ metadata.jsonfeed.path | url }}" type="application/json" title="{{ metadata.title }}">
+    <link
+			href="https://unpkg.com/prismjs@1.29.0/themes/prism-okaidia.css"
+			rel="stylesheet"
+		/>
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="{{ metadata.title }}">
     <meta property="og:url" content="{{ metadata.url + page.url.slice(1) }}">
@@ -23,8 +27,9 @@
   <body>
     <header>
       {%- for entry in metadata.nav %}
-        <span class="{% if entry.url == page.url %} active{% endif %}"><a href="{{ entry.url | url }}">{{ entry.title }}</a>{% if not loop.last %} - {% endif %}</span>
+        <span class="{% if entry.url == page.url or entry.url == page.url.substring(0, page.url.length-1) %} active{% endif %}"><a href="{{ entry.url | url }}">{{ entry.title }}</a>{% if not loop.last %} - {% endif %}</span>
       {%- endfor %}
+
     </header>
 
     <main{% if templateClass %} class="{{ templateClass }}"{% endif %}>
