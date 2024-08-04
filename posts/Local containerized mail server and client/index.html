@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local containerized mail server and client</title>
+    <meta name="description" content="Configuring mail server and mail client, locally and fully containerized">
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAACXBIWXMAAA7EAAAOxAGVKw4bAAADyUlEQVR4nO3YsY1TURRF0Wf0m6GJETENkBA5cBsIcmIkC5kySAgQRVADIkITESBMDya4/rPXquBEW+++wwq7Hk8v1loP0zuYdbic301vmLJNDxj2sNZ6Oz2CcdkAPJseAMwRAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAjbpgdwk8e11t/pEeyfAOzT87XWj+kR7J8A7NOfw+XsBcB/8wcAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYdv0AG7y6Xo8/Z4ecQc+HC7nL9Mj9kwA9unl9IA78Xl6wN45ASBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBsmx7ATV6ttX5Nj7gD36cH7J0A7NPXw+X8c3oE++cEgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgLBtegA3eX09nh6nRzwVh8v54/SGKQKwT++nBzwx2QA4ASBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBsmx4w7Nta6830CJjyDyQhIMoCavVzAAAAAElFTkSuQmCC" />
+    <link rel="stylesheet" href="/Blog/css/styles.css">
+    <link rel="alternate" href="/Blog/feed/feed.xml" type="application/atom+xml" title="Elvir&#39;s Blog">
+    <link rel="alternate" href="/Blog/feed/feed.json" type="application/json" title="Elvir&#39;s Blog">
+    <link
+			href="https://unpkg.com/prismjs@1.29.0/themes/prism-okaidia.css"
+			rel="stylesheet"
+		/>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Elvir&#39;s Blog">
+    <meta property="og:url" content="https://elvarivle.github.com/Blogposts/Local containerized mail server and client/">
+    <meta property="og:title" content="Local containerized mail server and client">
+    <meta property="og:description" content="Configuring mail server and mail client, locally and fully containerized">
+
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://elvarivle.github.com/Blogposts/Local containerized mail server and client/">
+    <meta property="twitter:title" content="Local containerized mail server and client">
+    <meta property="twitter:description" content="Configuring mail server and mail client, locally and fully containerized">
+  </head>
+  <body>
+    <header>
+        <span class=""><a href="/Blog/">home</a> - </span>
+        <span class=""><a href="/Blog/posts">posts</a> - </span>
+        <span class=""><a href="/Blog/about">about</a> - </span>
+        <span class=""><a href="/Blog/feed/feed.xml">rss</a> - </span>
+        <span class=""><a href="/Blog/search">search</a></span>
+
+    </header>
+
+    <main class="tmpl-post">
+      <h1 class="title">Local containerized mail server and client</h1>
+<div class="subtitle">
+<time class="post" datetime="04 Aug 2024">04 Aug 2024</time>
+<a class="tag" href="/Blog/tags/mail-server/" >mail server</a>
+<a class="tag" href="/Blog/tags/mail-client/" >mail client</a>
+<a class="tag" href="/Blog/tags/containerization/" >containerization</a>
+</div>
+<p>Does your app require sending and reading mails from the mail server and you don't want to rely on Gmail, Outlook or similar service? This blog post will focus on setting up fully containerized local mail server for sending and reading mails, browser based mail client and seeding mail users upon mail server container startup.</p>
+<h1 id="docker-compose-setup" tabindex="-1">Docker compose setup <a class="direct-link" href="#docker-compose-setup" aria-hidden="true">#</a></h1>
+<p>This setup will use <code>Greenmail</code> as a mail server, <code>Roundcube</code> as a mail client and <code>Postman</code> for seeding the initial users when mail server container starts up.</p>
+<p><code>docker-compose.yaml</code></p>
+<pre class="language-yaml"><code class="language-yaml"><span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">greenmail</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> greenmail/standalone<span class="token punctuation">:</span>latest
+    <span class="token comment"># we can reference this container from other containers with mailserver.com</span>
+    <span class="token comment"># we will also use this as the domain for mail server</span>
+    <span class="token key atrule">hostname</span><span class="token punctuation">:</span> mailserver.com
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> JAVA_OPTS=<span class="token punctuation">-</span>Dgreenmail.verbose
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"9025:3025"</span> <span class="token comment"># SMTP</span>
+      <span class="token punctuation">-</span> <span class="token string">"9110:3110"</span> <span class="token comment"># POP3</span>
+      <span class="token punctuation">-</span> <span class="token string">"9143:3143"</span> <span class="token comment"># IMAP</span>
+      <span class="token punctuation">-</span> <span class="token string">"9465:3465"</span> <span class="token comment"># SMTPS</span>
+      <span class="token punctuation">-</span> <span class="token string">"9993:3993"</span> <span class="token comment"># IMAPS</span>
+      <span class="token punctuation">-</span> <span class="token string">"9995:3995"</span> <span class="token comment"># POP3S</span>
+      <span class="token punctuation">-</span> <span class="token string">"9003:8080"</span> <span class="token comment"># API</span>
+
+  <span class="token key atrule">postman</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> postman/newman<span class="token punctuation">:</span>alpine
+    <span class="token key atrule">command</span><span class="token punctuation">:</span>
+      <span class="token comment"># next step in the blog post will be generating this postman collection json file</span>
+      run GreenMail_Users.postman_collection.json <span class="token punctuation">-</span>k
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token comment"># postman collection must be located in conf/postman folder, relative to the location of this docker compose file</span>
+      <span class="token punctuation">-</span> ./conf/postman<span class="token punctuation">:</span>/etc/newman
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> on<span class="token punctuation">-</span>failure<span class="token punctuation">:</span><span class="token number">10</span>
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> greenmail
+
+
+  <span class="token key atrule">roundcubemail</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> roundcube/roundcubemail<span class="token punctuation">:</span>latest
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./data/roundcube/www<span class="token punctuation">:</span>/var/www/html
+      <span class="token punctuation">-</span> ./data/roundcube/db/sqlite<span class="token punctuation">:</span>/var/roundcube/db
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"9002:80"</span>
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ROUNDCUBEMAIL_DB_TYPE=sqlite
+      <span class="token punctuation">-</span> ROUNDCUBEMAIL_SKIN=elastic
+      <span class="token punctuation">-</span> ROUNDCUBEMAIL_DEFAULT_HOST=mailserver.com
+      <span class="token punctuation">-</span> ROUNDCUBEMAIL_SMTP_SERVER=mailserver.com
+      <span class="token punctuation">-</span> ROUNDCUBEMAIL_DEFAULT_PORT=3143 <span class="token comment"># containers in the same network don't see exposed ports, only the internal ports</span>
+      <span class="token punctuation">-</span> ROUNDCUBEMAIL_SMTP_PORT=3025</code></pre>
+<p>Based on this docker compose file, the following will happen:</p>
+<ul>
+<li>greenmail will be started with web UI accessible from the host machine on <a href="http://localhost:9003">http://localhost:9003</a></li>
+<li>postman collection will run POST requests for each user to <a href="http://mailserver.com:8080/api/user">http://mailserver.com:8080/api/user</a></li>
+<li>roundcube will be started with web UI accessible from the host machine on <a href="http://localhost:9002">http://localhost:9002</a></li>
+<li>roundcube will use <a href="http://mailserver.com">mailserver.com</a> container as a mail server</li>
+</ul>
+<h1 id="postman-collection" tabindex="-1">Postman collection <a class="direct-link" href="#postman-collection" aria-hidden="true">#</a></h1>
+<p>Create a postman collection consisting of POST requests for each user with the following configuration:</p>
+<p><code>POST http://mailserver.com:8080/api/user</code></p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"email"</span><span class="token operator">:</span> <span class="token string">"username@mailserver.com"</span><span class="token punctuation">,</span>
+    <span class="token property">"login"</span><span class="token operator">:</span> <span class="token string">"roundcube-login-username"</span><span class="token punctuation">,</span>
+    <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"roundcube-login-password"</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Export the collection to json file and place it in <code>conf/postman</code> folder, relative to docker compose file.</p>
+<h3 id="note" tabindex="-1">NOTE: <a class="direct-link" href="#note" aria-hidden="true">#</a></h3>
+<p>Instead of Postman, you could also write some basic <code>bash</code> script with <code>curl</code> commands that do the same thing, containerize that script and use it instead of postman container.</p>
+<h1 id="final-remark" tabindex="-1">Final remark <a class="direct-link" href="#final-remark" aria-hidden="true">#</a></h1>
+<p>Execute <code>docker compose up -d</code>, navigate to <a href="http://localhost:9002">http://localhost:9002</a> and login with one of the users you've created. Send a mail to the other user, then login with that user. This is the screen you should be greeted with (redacted due to using sensitive usernames):</p>
+<img src="/Blog/img/containerized-mail-server-post/test-mail-send.png" alt="Mail send test" width="1000" height="420" />
+<hr>
+<ul class="nav"><li><a href="/Blog/posts/Feign - Handle errors from response body/">< Feign - Handle errors from response body</a></li>
+</ul>
+
+    </main>
+  </body>
+</html>

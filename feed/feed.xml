@@ -5,12 +5,88 @@
 	
 	<link href="https://elvarivle.github.com/Blog/feed/feed.xml" rel="self"/>
 	<link href="https://elvarivle.github.com/Blog"/>
-	<updated>2024-06-30T00:00:00Z</updated>
+	<updated>2024-08-04T00:00:00Z</updated>
 	<id>https://example.com/</id>
 	<author>
 		<name>Elvir Vlahovljak</name>
 		<email>elvirvlahovljak@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Local containerized mail server and client</title>
+		<link href="https://elvarivle.github.com/Blog/posts/Local%20containerized%20mail%20server%20and%20client/"/>
+		<updated>2024-08-04T00:00:00Z</updated>
+		<id>https://elvarivle.github.com/Blog/posts/Local%20containerized%20mail%20server%20and%20client/</id>
+		<content type="html">&lt;p&gt;Does your app require sending and reading mails from the mail server and you don&#39;t want to rely on Gmail, Outlook or similar service? This blog post will focus on setting up fully containerized local mail server for sending and reading mails, browser based mail client and seeding mail users upon mail server container startup.&lt;/p&gt;
+&lt;h1 id=&quot;docker-compose-setup&quot; tabindex=&quot;-1&quot;&gt;Docker compose setup &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Local%20containerized%20mail%20server%20and%20client/#docker-compose-setup&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;This setup will use &lt;code&gt;Greenmail&lt;/code&gt; as a mail server, &lt;code&gt;Roundcube&lt;/code&gt; as a mail client and &lt;code&gt;Postman&lt;/code&gt; for seeding the initial users when mail server container starts up.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker-compose.yaml&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;greenmail&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; greenmail/standalone&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;latest
+    &lt;span class=&quot;token comment&quot;&gt;# we can reference this container from other containers with mailserver.com&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# we will also use this as the domain for mail server&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; mailserver.com
+    &lt;span class=&quot;token key atrule&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; JAVA_OPTS=&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;Dgreenmail.verbose
+    &lt;span class=&quot;token key atrule&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;9025:3025&quot;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# SMTP&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;9110:3110&quot;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# POP3&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;9143:3143&quot;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# IMAP&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;9465:3465&quot;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# SMTPS&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;9993:3993&quot;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# IMAPS&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;9995:3995&quot;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# POP3S&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;9003:8080&quot;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# API&lt;/span&gt;
+
+  &lt;span class=&quot;token key atrule&quot;&gt;postman&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postman/newman&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;alpine
+    &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;# next step in the blog post will be generating this postman collection json file&lt;/span&gt;
+      run GreenMail_Users.postman_collection.json &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;k
+    &lt;span class=&quot;token key atrule&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;# postman collection must be located in conf/postman folder, relative to the location of this docker compose file&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ./conf/postman&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;/etc/newman
+    &lt;span class=&quot;token key atrule&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; on&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;failure&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;depends_on&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; greenmail
+
+
+  &lt;span class=&quot;token key atrule&quot;&gt;roundcubemail&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; roundcube/roundcubemail&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;latest
+    &lt;span class=&quot;token key atrule&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ./data/roundcube/www&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;/var/www/html
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ./data/roundcube/db/sqlite&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;/var/roundcube/db
+    &lt;span class=&quot;token key atrule&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;9002:80&quot;&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ROUNDCUBEMAIL_DB_TYPE=sqlite
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ROUNDCUBEMAIL_SKIN=elastic
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ROUNDCUBEMAIL_DEFAULT_HOST=mailserver.com
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ROUNDCUBEMAIL_SMTP_SERVER=mailserver.com
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ROUNDCUBEMAIL_DEFAULT_PORT=3143 &lt;span class=&quot;token comment&quot;&gt;# containers in the same network don&#39;t see exposed ports, only the internal ports&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ROUNDCUBEMAIL_SMTP_PORT=3025&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Based on this docker compose file, the following will happen:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;greenmail will be started with web UI accessible from the host machine on &lt;a href=&quot;http://localhost:9003/&quot;&gt;http://localhost:9003&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;postman collection will run POST requests for each user to &lt;a href=&quot;http://mailserver.com:8080/api/user&quot;&gt;http://mailserver.com:8080/api/user&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;roundcube will be started with web UI accessible from the host machine on &lt;a href=&quot;http://localhost:9002/&quot;&gt;http://localhost:9002&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;roundcube will use &lt;a href=&quot;http://mailserver.com/&quot;&gt;mailserver.com&lt;/a&gt; container as a mail server&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;postman-collection&quot; tabindex=&quot;-1&quot;&gt;Postman collection &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Local%20containerized%20mail%20server%20and%20client/#postman-collection&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Create a postman collection consisting of POST requests for each user with the following configuration:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;POST http://mailserver.com:8080/api/user&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;email&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;username@mailserver.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;login&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;roundcube-login-username&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;roundcube-login-password&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Export the collection to json file and place it in &lt;code&gt;conf/postman&lt;/code&gt; folder, relative to docker compose file.&lt;/p&gt;
+&lt;h3 id=&quot;note&quot; tabindex=&quot;-1&quot;&gt;NOTE: &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Local%20containerized%20mail%20server%20and%20client/#note&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Instead of Postman, you could also write some basic &lt;code&gt;bash&lt;/code&gt; script with &lt;code&gt;curl&lt;/code&gt; commands that do the same thing, containerize that script and use it instead of postman container.&lt;/p&gt;
+&lt;h1 id=&quot;final-remark&quot; tabindex=&quot;-1&quot;&gt;Final remark &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Local%20containerized%20mail%20server%20and%20client/#final-remark&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Execute &lt;code&gt;docker compose up -d&lt;/code&gt;, navigate to &lt;a href=&quot;http://localhost:9002/&quot;&gt;http://localhost:9002&lt;/a&gt; and login with one of the users you&#39;ve created. Send a mail to the other user, then login with that user. This is the screen you should be greeted with (redacted due to using sensitive usernames):&lt;/p&gt;
+&lt;img src=&quot;https://elvarivle.github.com/Blog/img/containerized-mail-server-post/test-mail-send.png&quot; alt=&quot;Mail send test&quot; width=&quot;1000&quot; height=&quot;420&quot; /&gt;</content>
+	</entry>
 	
 	<entry>
 		<title>Feign - Handle errors from response body</title>
