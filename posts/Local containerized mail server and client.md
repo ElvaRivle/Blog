@@ -87,7 +87,7 @@ Export the collection to json file and place it in `conf/postman` folder, relati
 
 ### NOTE: 
 
-Instead of Postman, you could also write some basic `bash` script with `curl` commands that do the same thing, containerize that script and use it instead of postman container.  
+Instead of postman, you could also write some basic `bash` script with `curl` commands that do the same thing, containerize that script and use it instead of postman container.  
 
 # Final remark
 
