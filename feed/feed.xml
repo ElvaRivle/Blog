@@ -85,7 +85,7 @@
 &lt;p&gt;Instead of postman, you could also write some basic &lt;code&gt;bash&lt;/code&gt; script with &lt;code&gt;curl&lt;/code&gt; commands that do the same thing, containerize that script and use it instead of postman container.&lt;/p&gt;
 &lt;h1 id=&quot;final-remark&quot; tabindex=&quot;-1&quot;&gt;Final remark &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Local%20containerized%20mail%20server%20and%20client/#final-remark&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Execute &lt;code&gt;docker compose up -d&lt;/code&gt;, navigate to &lt;a href=&quot;http://localhost:9002/&quot;&gt;http://localhost:9002&lt;/a&gt; and login with one of the users you&#39;ve created. Send a mail to the other user, then login with that user. This is the screen you should be greeted with (redacted due to using sensitive usernames):&lt;/p&gt;
-&lt;img src=&quot;https://elvarivle.github.com/Blog/img/containerized-mail-server-post/test-mail-send.png&quot; alt=&quot;Mail send test&quot; width=&quot;1000&quot; height=&quot;420&quot; /&gt;</content>
+&lt;img src=&quot;https://elvarivle.github.com/Blog/img/containerized-mail-server-post/test-mail-send.png&quot; alt=&quot;Mail send test&quot; width=&quot;100%&quot; height=&quot;auto&quot; /&gt;</content>
 	</entry>
 	
 	<entry>
