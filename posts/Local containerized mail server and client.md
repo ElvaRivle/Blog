@@ -93,4 +93,4 @@ Instead of postman, you could also write some basic `bash` script with `curl` co
 
 Execute `docker compose up -d`, navigate to http://localhost:9002 and login with one of the users you've created. Send a mail to the other user, then login with that user. This is the screen you should be greeted with (redacted due to using sensitive usernames):
 
-<img src="{{ '/img/containerized-mail-server-post/test-mail-send.png' | url }}" alt="Mail send test" width="1000" height="420" />
+<img src="{{ '/img/containerized-mail-server-post/test-mail-send.png' | url }}" alt="Mail send test" width="100%" height="auto" />
