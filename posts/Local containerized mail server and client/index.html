@@ -107,7 +107,7 @@
 <span class="token punctuation">}</span></code></pre>
 <p>Export the collection to json file and place it in <code>conf/postman</code> folder, relative to docker compose file.</p>
 <h3 id="note" tabindex="-1">NOTE: <a class="direct-link" href="#note" aria-hidden="true">#</a></h3>
-<p>Instead of Postman, you could also write some basic <code>bash</code> script with <code>curl</code> commands that do the same thing, containerize that script and use it instead of postman container.</p>
+<p>Instead of postman, you could also write some basic <code>bash</code> script with <code>curl</code> commands that do the same thing, containerize that script and use it instead of postman container.</p>
 <h1 id="final-remark" tabindex="-1">Final remark <a class="direct-link" href="#final-remark" aria-hidden="true">#</a></h1>
 <p>Execute <code>docker compose up -d</code>, navigate to <a href="http://localhost:9002">http://localhost:9002</a> and login with one of the users you've created. Send a mail to the other user, then login with that user. This is the screen you should be greeted with (redacted due to using sensitive usernames):</p>
 <img src="/Blog/img/containerized-mail-server-post/test-mail-send.png" alt="Mail send test" width="1000" height="420" />

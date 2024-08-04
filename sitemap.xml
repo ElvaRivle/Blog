@@ -42,6 +42,21 @@
   </url>
   
   <url>
+    <loc>https://elvarivle.github.com/Blog/tags/mail-server/</loc>
+    <lastmod>04 Aug 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/Blog/tags/mail-client/</loc>
+    <lastmod>04 Aug 2024</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://elvarivle.github.com/Blog/tags/containerization/</loc>
+    <lastmod>04 Aug 2024</lastmod>
+  </url>
+  
+  <url>
     <loc>https://elvarivle.github.com/Blog/tags/feign/</loc>
     <lastmod>04 Aug 2024</lastmod>
   </url>
@@ -58,21 +73,6 @@
   
   <url>
     <loc>https://elvarivle.github.com/Blog/tags/feign-error-decoder/</loc>
-    <lastmod>04 Aug 2024</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://elvarivle.github.com/Blog/tags/mail-server/</loc>
-    <lastmod>04 Aug 2024</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://elvarivle.github.com/Blog/tags/mail-client/</loc>
-    <lastmod>04 Aug 2024</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://elvarivle.github.com/Blog/tags/containerization/</loc>
     <lastmod>04 Aug 2024</lastmod>
   </url>
 </urlset>
