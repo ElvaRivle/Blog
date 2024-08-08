@@ -1,5 +1,5 @@
 ---
-title: Feign - Handle errors from response body
+title: Feign - Handle errors from the response body
 description: Configuring Feign decoder and error decoder to parse response body from 200 and non-200 response codes
 date: 2024-06-30
 tags:
@@ -11,11 +11,15 @@ layout: layouts/post.njk
 ---
 # Devil is in the details
 
-It's time for you to grab the next ticket in the sprint. The ticket says:
+It's time for you to grab the next ticket from the board. The ticket says:
 
-> Configure error handling for XZY third-party API in our codebase
+> Configure Feign error handling for XZY third-party API in the codebase
 
 *"I know how to write an error decoder, this will be easy"*, you may say. You go to the XYZ documentation website and see that you need to handle about 10 possible errors. Along with that, you're greeted with a surprise: **In the case of error, all methods return the error details in the body, but some methods return 200, and some non-200 status codes**. Issue here is that error decoder, which handles non-200 status codes, and regular decoder, which handles 200 status codes, perform error handling quite differently. This blog post should provide a solution on how to avoid code duplication (keep error handling logic in one place), and also catch only one exception, `FeignException`, in the service layer (and not 10 that are listed on the documentation website), all while still using both decoders. 
+
+### Example
+
+<a href="https://iban.com" target="_blank">iban.com</a> is the perfect example of this behavior. It's function is validating bank account information and fetching bank details. For every validation error, the reason behind the error is provided in the response body. <a href="https://www.iban.com/validation-api" target="_blank">But for the case of IBAN validation, HTTP response code is 200</a> (not explicitly mentioned in the docs), <a href="https://www.iban.com/bic-validation-api" target="_blank">while in the case of BIC validation, HTTP response code is non-200</a>.
 
 # How decoding error handling works under the hood
 Let's take a look at <a href="https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/InvocationContext.java" target="_blank">InvocationContext.java</a> from Feign library, where calls to both decoders are implemented, to see how they perform error handling.
@@ -62,8 +66,9 @@ The solution consist of the following:
     - If you decide to use cause as `Throwable`, create custom exceptions for each of the 10 API error cases
 2. That base exception should extend `FeignException`
 3. From regular decoder throw `BaseXYZApiException`, passing it either some custom message, or one of the 10 custom exceptions as cause
-4. From error decoder, call regular decoder by wrapping it in `try-catch` block
+4. From error decoder, call regular decoder by wrapping the call in `try-catch` block
 5. If `catch` block catches `BaseXYZApiException`, return it from error decoder. Otherwise, call <a href="https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102" target="_blank">default error decoder</a> provided by Feign
+    - This default error decoder will return `FeignException` for all cases
 6. Only catch `FeignException` in service layer, not minding `BaseXYZApiException` or any of the 10 exceptions
 7. Configure Feign client appropriately
 
@@ -83,7 +88,7 @@ Let's examine all possible cases which can happen and how we covered them with t
 2. 200 response code with error in the body &rarr; regular decoder will be called and our custom made exception will be thrown (`BaseXYZApiException` mentioned earlier), which will be handled by our service layer as `FeignException`
 ```json
 {
-    "_comment": "HTTP respone code for this body is 200",
+    "_comment": "HTTP response code for this response is 200",
     "data": {
         ...
     },
@@ -100,7 +105,7 @@ Let's examine all possible cases which can happen and how we covered them with t
     4. Any exception returned from the error decoder will be handled by our service layer as `FeignException`
 ```json
 {
-    "_comment": "HTTP respone code for this body is non-200",
+    "_comment": "HTTP response code for this response is non-200",
     "data": {
         ...
     },
@@ -165,6 +170,7 @@ class ResponseDecoder(objectMapper: ObjectMapper) : JacksonDecoder(objectMapper)
 
 4. From error decoder, call regular decoder by wrapping it in `try-catch` block
 5. If `catch` block catches `BaseXYZApiException`, return it from error decoder. Otherwise, call <a href="https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102" target="_blank">default error decoder</a> provided by Feign
+    - This default error decoder will return `FeignException` for all cases
 
 ```kotlin
 class ResponseErrorDecoder(private val regularDecoder: ResponseDecoder) : ErrorDecoder {
@@ -241,7 +247,6 @@ fun build(): XYZClient {
         .builder()
         .decoder(regularDecoder)
         .errorDecoder(ResponseErrorDecoder(regularDecoder))
-        .retryer(XYZApiRetryer())
         ...
         .target(target)
 }
