@@ -89,17 +89,19 @@
 	</entry>
 	
 	<entry>
-		<title>Feign - Handle errors from response body</title>
-		<link href="https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20response%20body/"/>
+		<title>Feign - Handle errors from the response body</title>
+		<link href="https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20the%20response%20body/"/>
 		<updated>2024-06-30T00:00:00Z</updated>
-		<id>https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20response%20body/</id>
-		<content type="html">&lt;h1 id=&quot;devil-is-in-the-details&quot; tabindex=&quot;-1&quot;&gt;Devil is in the details &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20response%20body/#devil-is-in-the-details&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;It&#39;s time for you to grab the next ticket in the sprint. The ticket says:&lt;/p&gt;
+		<id>https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20the%20response%20body/</id>
+		<content type="html">&lt;h1 id=&quot;devil-is-in-the-details&quot; tabindex=&quot;-1&quot;&gt;Devil is in the details &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20the%20response%20body/#devil-is-in-the-details&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;It&#39;s time for you to grab the next ticket from the board. The ticket says:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Configure error handling for XZY third-party API in our codebase&lt;/p&gt;
+&lt;p&gt;Configure Feign error handling for XZY third-party API in the codebase&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;em&gt;&amp;quot;I know how to write an error decoder, this will be easy&amp;quot;&lt;/em&gt;, you may say. You go to the XYZ documentation website and see that you need to handle about 10 possible errors. Along with that, you&#39;re greeted with a surprise: &lt;strong&gt;In the case of error, all methods return the error details in the body, but some methods return 200, and some non-200 status codes&lt;/strong&gt;. Issue here is that error decoder, which handles non-200 status codes, and regular decoder, which handles 200 status codes, perform error handling quite differently. This blog post should provide a solution on how to avoid code duplication (keep error handling logic in one place), and also catch only one exception, &lt;code&gt;FeignException&lt;/code&gt;, in the service layer (and not 10 that are listed on the documentation website), all while still using both decoders.&lt;/p&gt;
-&lt;h1 id=&quot;how-decoding-error-handling-works-under-the-hood&quot; tabindex=&quot;-1&quot;&gt;How decoding error handling works under the hood &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20response%20body/#how-decoding-error-handling-works-under-the-hood&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;h3 id=&quot;example&quot; tabindex=&quot;-1&quot;&gt;Example &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20the%20response%20body/#example&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://iban.com/&quot; target=&quot;_blank&quot;&gt;iban.com&lt;/a&gt; is the perfect example of this behavior. It&#39;s function is validating bank account information and fetching bank details. For every validation error, the reason behind the error is provided in the response body. &lt;a href=&quot;https://www.iban.com/validation-api&quot; target=&quot;_blank&quot;&gt;But for the case of IBAN validation, HTTP response code is 200&lt;/a&gt; (not explicitly mentioned in the docs), &lt;a href=&quot;https://www.iban.com/bic-validation-api&quot; target=&quot;_blank&quot;&gt;while in the case of BIC validation, HTTP response code is non-200&lt;/a&gt;.&lt;/p&gt;
+&lt;h1 id=&quot;how-decoding-error-handling-works-under-the-hood&quot; tabindex=&quot;-1&quot;&gt;How decoding error handling works under the hood &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20the%20response%20body/#how-decoding-error-handling-works-under-the-hood&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Let&#39;s take a look at &lt;a href=&quot;https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/InvocationContext.java&quot; target=&quot;_blank&quot;&gt;InvocationContext.java&lt;/a&gt; from Feign library, where calls to both decoders are implemented, to see how they perform error handling.&lt;/p&gt;
 &lt;p&gt;Regular decoder call source code:&lt;/p&gt;
 &lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Object&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Response&lt;/span&gt; response&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Type&lt;/span&gt; returnType&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -123,7 +125,7 @@
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, regular decoder error handling catches all exceptions, wraps them into &lt;code&gt;FeignException&lt;/code&gt; and rethrows that, which is great, since on the service level, we can just catch this &lt;code&gt;FeignException&lt;/code&gt;. But error decoder error handling is quite different, it &lt;strong&gt;returns raw&lt;/strong&gt; exception, no wrapping, no re-throwing. So in the case you create custom exceptions for all 10 possible API errors, or even if you create one single exception for all cases, and throw them/it from the error decoder, then you will have to handle both those/that error together with &lt;code&gt;FeignException&lt;/code&gt; in service layer, which isn&#39;t ideal.&lt;/p&gt;
 &lt;p&gt;So, let&#39;s see the solution where all error handling logic is unified and service layer only deals with the &lt;code&gt;FeignException&lt;/code&gt;, nothing else.&lt;/p&gt;
-&lt;h1 id=&quot;solution-theory&quot; tabindex=&quot;-1&quot;&gt;Solution (theory) &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20response%20body/#solution-theory&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;h1 id=&quot;solution-theory&quot; tabindex=&quot;-1&quot;&gt;Solution (theory) &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20the%20response%20body/#solution-theory&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;&lt;em&gt;Just to be clear, I&#39;m not saying this is the only or the best solution, but the one I&#39;ve come to with the best intention.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The solution consist of the following:&lt;/p&gt;
 &lt;ol&gt;
@@ -134,12 +136,16 @@
 &lt;/li&gt;
 &lt;li&gt;That base exception should extend &lt;code&gt;FeignException&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;From regular decoder throw &lt;code&gt;BaseXYZApiException&lt;/code&gt;, passing it either some custom message, or one of the 10 custom exceptions as cause&lt;/li&gt;
-&lt;li&gt;From error decoder, call regular decoder by wrapping it in &lt;code&gt;try-catch&lt;/code&gt; block&lt;/li&gt;
-&lt;li&gt;If &lt;code&gt;catch&lt;/code&gt; block catches &lt;code&gt;BaseXYZApiException&lt;/code&gt;, return it from error decoder. Otherwise, call &lt;a href=&quot;https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102&quot; target=&quot;_blank&quot;&gt;default error decoder&lt;/a&gt; provided by Feign&lt;/li&gt;
+&lt;li&gt;From error decoder, call regular decoder by wrapping the call in &lt;code&gt;try-catch&lt;/code&gt; block&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;catch&lt;/code&gt; block catches &lt;code&gt;BaseXYZApiException&lt;/code&gt;, return it from error decoder. Otherwise, call &lt;a href=&quot;https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102&quot; target=&quot;_blank&quot;&gt;default error decoder&lt;/a&gt; provided by Feign
+&lt;ul&gt;
+&lt;li&gt;This default error decoder will return &lt;code&gt;FeignException&lt;/code&gt; for all cases&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;li&gt;Only catch &lt;code&gt;FeignException&lt;/code&gt; in service layer, not minding &lt;code&gt;BaseXYZApiException&lt;/code&gt; or any of the 10 exceptions&lt;/li&gt;
 &lt;li&gt;Configure Feign client appropriately&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1 id=&quot;we-covered-all-possible-scenarios&quot; tabindex=&quot;-1&quot;&gt;We covered all possible scenarios &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20response%20body/#we-covered-all-possible-scenarios&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;h1 id=&quot;we-covered-all-possible-scenarios&quot; tabindex=&quot;-1&quot;&gt;We covered all possible scenarios &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20the%20response%20body/#we-covered-all-possible-scenarios&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Let&#39;s examine all possible cases which can happen and how we covered them with the provided solution:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;200 response code without error in the body → regular decoder will be called and no exception will be thrown, our service layer will receive decoded response object, the happiest path possible&lt;/li&gt;
@@ -154,7 +160,7 @@
 &lt;li&gt;200 response code with error in the body → regular decoder will be called and our custom made exception will be thrown (&lt;code&gt;BaseXYZApiException&lt;/code&gt; mentioned earlier), which will be handled by our service layer as &lt;code&gt;FeignException&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token property&quot;&gt;&quot;_comment&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;HTTP respone code for this body is 200&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;_comment&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;HTTP response code for this response is 200&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;token property&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
         ...
     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
@@ -174,7 +180,7 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token property&quot;&gt;&quot;_comment&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;HTTP respone code for this body is non-200&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;&quot;_comment&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;HTTP response code for this response is non-200&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;token property&quot;&gt;&quot;data&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
         ...
     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
@@ -183,7 +189,7 @@
         &lt;span class=&quot;token property&quot;&gt;&quot;message&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Error message&quot;&lt;/span&gt;
     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;h1 id=&quot;solution-code-kotlin-example&quot; tabindex=&quot;-1&quot;&gt;Solution (code, Kotlin example) &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20response%20body/#solution-code-kotlin-example&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;h1 id=&quot;solution-code-kotlin-example&quot; tabindex=&quot;-1&quot;&gt;Solution (code, Kotlin example) &lt;a class=&quot;direct-link&quot; href=&quot;https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20the%20response%20body/#solution-code-kotlin-example&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
 &lt;ol&gt;
 &lt;li&gt;Create one base exception &lt;code&gt;BaseXYZApiException&lt;/code&gt; that accepts either message as &lt;code&gt;String&lt;/code&gt;, or cause as &lt;code&gt;Throwable&lt;/code&gt;
 &lt;ul&gt;
@@ -235,7 +241,11 @@
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;ol start=&quot;4&quot;&gt;
 &lt;li&gt;From error decoder, call regular decoder by wrapping it in &lt;code&gt;try-catch&lt;/code&gt; block&lt;/li&gt;
-&lt;li&gt;If &lt;code&gt;catch&lt;/code&gt; block catches &lt;code&gt;BaseXYZApiException&lt;/code&gt;, return it from error decoder. Otherwise, call &lt;a href=&quot;https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102&quot; target=&quot;_blank&quot;&gt;default error decoder&lt;/a&gt; provided by Feign&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;catch&lt;/code&gt; block catches &lt;code&gt;BaseXYZApiException&lt;/code&gt;, return it from error decoder. Otherwise, call &lt;a href=&quot;https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102&quot; target=&quot;_blank&quot;&gt;default error decoder&lt;/a&gt; provided by Feign
+&lt;ul&gt;
+&lt;li&gt;This default error decoder will return &lt;code&gt;FeignException&lt;/code&gt; for all cases&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
 &lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ResponseErrorDecoder&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; regularDecoder&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; ResponseDecoder&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; ErrorDecoder &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; statusCodesWhereBodyCouldContainError &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;listOf&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;INTERNAL_SERVER_ERROR_500&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; FORBIDDEN_403&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; BAD_REQUEST_400&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
@@ -307,7 +317,6 @@
         &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;decoder&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;regularDecoder&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;errorDecoder&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ResponseErrorDecoder&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;regularDecoder&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;retryer&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;XYZApiRetryer&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
         &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;target&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;

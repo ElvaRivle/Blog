@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feign - Handle errors from response body</title>
+    <title>Feign - Handle errors from the response body</title>
     <meta name="description" content="Configuring Feign decoder and error decoder to parse response body from 200 and non-200 response codes">
     <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAACXBIWXMAAA7EAAAOxAGVKw4bAAADyUlEQVR4nO3YsY1TURRF0Wf0m6GJETENkBA5cBsIcmIkC5kySAgQRVADIkITESBMDya4/rPXquBEW+++wwq7Hk8v1loP0zuYdbic301vmLJNDxj2sNZ6Oz2CcdkAPJseAMwRAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAjbpgdwk8e11t/pEeyfAOzT87XWj+kR7J8A7NOfw+XsBcB/8wcAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYdv0AG7y6Xo8/Z4ecQc+HC7nL9Mj9kwA9unl9IA78Xl6wN45ASBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBsmx7ATV6ttX5Nj7gD36cH7J0A7NPXw+X8c3oE++cEgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgLBtegA3eX09nh6nRzwVh8v54/SGKQKwT++nBzwx2QA4ASBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBsmx4w7Nta6830CJjyDyQhIMoCavVzAAAAAElFTkSuQmCC" />
     <link rel="stylesheet" href="/Blog/css/styles.css">
@@ -15,13 +15,13 @@
 		/>
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Elvir&#39;s Blog">
-    <meta property="og:url" content="https://elvarivle.github.com/Blogposts/Feign - Handle errors from response body/">
-    <meta property="og:title" content="Feign - Handle errors from response body">
+    <meta property="og:url" content="https://elvarivle.github.com/Blogposts/Feign - Handle errors from the response body/">
+    <meta property="og:title" content="Feign - Handle errors from the response body">
     <meta property="og:description" content="Configuring Feign decoder and error decoder to parse response body from 200 and non-200 response codes">
 
     <meta property="twitter:card" content="summary">
-    <meta property="twitter:url" content="https://elvarivle.github.com/Blogposts/Feign - Handle errors from response body/">
-    <meta property="twitter:title" content="Feign - Handle errors from response body">
+    <meta property="twitter:url" content="https://elvarivle.github.com/Blogposts/Feign - Handle errors from the response body/">
+    <meta property="twitter:title" content="Feign - Handle errors from the response body">
     <meta property="twitter:description" content="Configuring Feign decoder and error decoder to parse response body from 200 and non-200 response codes">
   </head>
   <body>
@@ -35,7 +35,7 @@
     </header>
 
     <main class="tmpl-post">
-      <h1 class="title">Feign - Handle errors from response body</h1>
+      <h1 class="title">Feign - Handle errors from the response body</h1>
 <div class="subtitle">
 <time class="post" datetime="30 Jun 2024">30 Jun 2024</time>
 <a class="tag" href="/Blog/tags/feign/" >feign</a>
@@ -44,11 +44,13 @@
 <a class="tag" href="/Blog/tags/feign-error-decoder/" >feign error decoder</a>
 </div>
 <h1 id="devil-is-in-the-details" tabindex="-1">Devil is in the details <a class="direct-link" href="#devil-is-in-the-details" aria-hidden="true">#</a></h1>
-<p>It's time for you to grab the next ticket in the sprint. The ticket says:</p>
+<p>It's time for you to grab the next ticket from the board. The ticket says:</p>
 <blockquote>
-<p>Configure error handling for XZY third-party API in our codebase</p>
+<p>Configure Feign error handling for XZY third-party API in the codebase</p>
 </blockquote>
 <p><em>&quot;I know how to write an error decoder, this will be easy&quot;</em>, you may say. You go to the XYZ documentation website and see that you need to handle about 10 possible errors. Along with that, you're greeted with a surprise: <strong>In the case of error, all methods return the error details in the body, but some methods return 200, and some non-200 status codes</strong>. Issue here is that error decoder, which handles non-200 status codes, and regular decoder, which handles 200 status codes, perform error handling quite differently. This blog post should provide a solution on how to avoid code duplication (keep error handling logic in one place), and also catch only one exception, <code>FeignException</code>, in the service layer (and not 10 that are listed on the documentation website), all while still using both decoders.</p>
+<h3 id="example" tabindex="-1">Example <a class="direct-link" href="#example" aria-hidden="true">#</a></h3>
+<p><a href="https://iban.com" target="_blank">iban.com</a> is the perfect example of this behavior. It's function is validating bank account information and fetching bank details. For every validation error, the reason behind the error is provided in the response body. <a href="https://www.iban.com/validation-api" target="_blank">But for the case of IBAN validation, HTTP response code is 200</a> (not explicitly mentioned in the docs), <a href="https://www.iban.com/bic-validation-api" target="_blank">while in the case of BIC validation, HTTP response code is non-200</a>.</p>
 <h1 id="how-decoding-error-handling-works-under-the-hood" tabindex="-1">How decoding error handling works under the hood <a class="direct-link" href="#how-decoding-error-handling-works-under-the-hood" aria-hidden="true">#</a></h1>
 <p>Let's take a look at <a href="https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/InvocationContext.java" target="_blank">InvocationContext.java</a> from Feign library, where calls to both decoders are implemented, to see how they perform error handling.</p>
 <p>Regular decoder call source code:</p>
@@ -84,8 +86,12 @@
 </li>
 <li>That base exception should extend <code>FeignException</code></li>
 <li>From regular decoder throw <code>BaseXYZApiException</code>, passing it either some custom message, or one of the 10 custom exceptions as cause</li>
-<li>From error decoder, call regular decoder by wrapping it in <code>try-catch</code> block</li>
-<li>If <code>catch</code> block catches <code>BaseXYZApiException</code>, return it from error decoder. Otherwise, call <a href="https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102" target="_blank">default error decoder</a> provided by Feign</li>
+<li>From error decoder, call regular decoder by wrapping the call in <code>try-catch</code> block</li>
+<li>If <code>catch</code> block catches <code>BaseXYZApiException</code>, return it from error decoder. Otherwise, call <a href="https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102" target="_blank">default error decoder</a> provided by Feign
+<ul>
+<li>This default error decoder will return <code>FeignException</code> for all cases</li>
+</ul>
+</li>
 <li>Only catch <code>FeignException</code> in service layer, not minding <code>BaseXYZApiException</code> or any of the 10 exceptions</li>
 <li>Configure Feign client appropriately</li>
 </ol>
@@ -104,7 +110,7 @@
 <li>200 response code with error in the body → regular decoder will be called and our custom made exception will be thrown (<code>BaseXYZApiException</code> mentioned earlier), which will be handled by our service layer as <code>FeignException</code></li>
 </ol>
 <pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
-    <span class="token property">"_comment"</span><span class="token operator">:</span> <span class="token string">"HTTP respone code for this body is 200"</span><span class="token punctuation">,</span>
+    <span class="token property">"_comment"</span><span class="token operator">:</span> <span class="token string">"HTTP response code for this response is 200"</span><span class="token punctuation">,</span>
     <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
         ...
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
@@ -124,7 +130,7 @@
 </li>
 </ol>
 <pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
-    <span class="token property">"_comment"</span><span class="token operator">:</span> <span class="token string">"HTTP respone code for this body is non-200"</span><span class="token punctuation">,</span>
+    <span class="token property">"_comment"</span><span class="token operator">:</span> <span class="token string">"HTTP response code for this response is non-200"</span><span class="token punctuation">,</span>
     <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
         ...
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
@@ -185,7 +191,11 @@
 <span class="token punctuation">}</span></code></pre>
 <ol start="4">
 <li>From error decoder, call regular decoder by wrapping it in <code>try-catch</code> block</li>
-<li>If <code>catch</code> block catches <code>BaseXYZApiException</code>, return it from error decoder. Otherwise, call <a href="https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102" target="_blank">default error decoder</a> provided by Feign</li>
+<li>If <code>catch</code> block catches <code>BaseXYZApiException</code>, return it from error decoder. Otherwise, call <a href="https://github.com/OpenFeign/feign/blob/master/core/src/main/java/feign/codec/ErrorDecoder.java#L102" target="_blank">default error decoder</a> provided by Feign
+<ul>
+<li>This default error decoder will return <code>FeignException</code> for all cases</li>
+</ul>
+</li>
 </ol>
 <pre class="language-kotlin"><code class="language-kotlin"><span class="token keyword">class</span> <span class="token function">ResponseErrorDecoder</span><span class="token punctuation">(</span><span class="token keyword">private</span> <span class="token keyword">val</span> regularDecoder<span class="token operator">:</span> ResponseDecoder<span class="token punctuation">)</span> <span class="token operator">:</span> ErrorDecoder <span class="token punctuation">{</span>
     <span class="token keyword">private</span> <span class="token keyword">val</span> statusCodesWhereBodyCouldContainError <span class="token operator">=</span> <span class="token function">listOf</span><span class="token punctuation">(</span>INTERNAL_SERVER_ERROR_500<span class="token punctuation">,</span> FORBIDDEN_403<span class="token punctuation">,</span> BAD_REQUEST_400<span class="token punctuation">)</span>
@@ -257,7 +267,6 @@
         <span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
         <span class="token punctuation">.</span><span class="token function">decoder</span><span class="token punctuation">(</span>regularDecoder<span class="token punctuation">)</span>
         <span class="token punctuation">.</span><span class="token function">errorDecoder</span><span class="token punctuation">(</span><span class="token function">ResponseErrorDecoder</span><span class="token punctuation">(</span>regularDecoder<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">retryer</span><span class="token punctuation">(</span><span class="token function">XYZApiRetryer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
         <span class="token operator">..</span><span class="token punctuation">.</span>
         <span class="token punctuation">.</span><span class="token function">target</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>

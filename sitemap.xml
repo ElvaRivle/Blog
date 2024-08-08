@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20response%20body/</loc>
+    <loc>https://elvarivle.github.com/Blog/posts/Feign%20-%20Handle%20errors%20from%20the%20response%20body/</loc>
     <lastmod>30 Jun 2024</lastmod>
   </url>
   
@@ -13,66 +13,66 @@
   
   <url>
     <loc>https://elvarivle.github.com/Blog/about/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/posts/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/page-list/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/search/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/tags/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/tags/feign/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/tags/error-handling/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/tags/feign-decoder/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/tags/feign-error-decoder/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/tags/mail-server/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/tags/mail-client/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
   
   <url>
     <loc>https://elvarivle.github.com/Blog/tags/containerization/</loc>
-    <lastmod>04 Aug 2024</lastmod>
+    <lastmod>08 Aug 2024</lastmod>
   </url>
 </urlset>
