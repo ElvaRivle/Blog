@@ -14,6 +14,9 @@ templateClass: tmpl-post
     <a href="mailto:elvirvlahovljak@gmail.com">
         <img src="{{ '/img/gmail-icon.png' | url }}" alt="GI" width="48" height="48" />
     </a>
+    <a href="{{ '/files/CV.pdf' | url }}" target="_blank">
+        <img src="{{ '/img/resume-icon.png' | url }}" alt="GI" width="48" height="48" />
+    </a>
 </div>
 
 <hr/>
