@@ -13,7 +13,7 @@ Imagine being in a situation where, once you create a PR, you dread that some ra
 
 `./gradlew test` command runs the test suite, which is split into two: regular unit tests and DAL (*Data Access Layer*) tests, which require a DB instance with all SQL migrations applied (thank you [test containers creators](https://testcontainers.com/)). Unit test classes are configured to run in parallel, while DAL test classes are configured to run sequentially. All test methods in each class execute sequentially. 
 
-All DAL tests extend a certain base class from the internal library which contains a static `@BeforeAll` method, which runs once for each DAL test class before any of it's tests are executed. It's main function is to instantiate a DB test container and run all SQL migrations if previous DAL tests hasn't done it already. Along with the method, this class also contains a static attribute `isDBTestContainerReady`, which is set to true once both of those processes are completed. **This is an important detail to remember.**
+All DAL tests extend a certain base class from the internal library which contains a static `@BeforeAll` method, which runs once for each DAL test class before any of it's tests are executed. It's main function is to instantiate a DB test container and run all SQL migrations if some previous DAL test hasn't done it already. Along with the method, this class also contains a static attribute `isDBTestContainerReady`, which is set to true once both of those processes are completed. **This is an important detail to remember.**
 
 # Reproducing the issue locally
 
@@ -88,8 +88,8 @@ After running the tests about 30-40 times, a pattern started to emerge. Every ti
 In the end, the issue was resolved by increasing the timeout for applying Flyway SQL migrations from 10 to 60 seconds by the library maintainers. This theoretically only postpones the issue, but practically that barrier should never be breached. At least not in a few years.  
 
 Other possible fixes that could be talked and discussed about are:
-- Make DAL tests run last (not a good option)
 - Separate DAL tests from unit tests in Gradle
 - Remove the timeout completely, give Flyway all the time it needs
 	- only implement a simple attempt count retry mechanism
 - Keep the timeout, but use attempt count with a back-off strategy
+- Make DAL tests run last (not a good option)
