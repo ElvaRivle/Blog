@@ -1,9 +1,10 @@
 ---
-title: Test order execution can cause tests to fail
-description: How test order execution can affect the results on success on tests and how to fix it
-date: 2024-08-??
+title: Test order execution and flaky tests
+description: How test order execution can make the test suite fail
+date: 2024-08-18
 tags:
-  - ??
+  - flaky tests
+  - test containers
 layout: layouts/post.njk
 ---
 Imagine being in a situation where, once you create a PR, you dread that some random test will sporadically fail and break the entire CI/CD pipeline. Disabling the entire test suite in the pipeline is obviously a no-go, so digging into the test suite configuration to find and fix the root cause is the obvious step. In this case, test suite configuration was handled by an internal library. 
