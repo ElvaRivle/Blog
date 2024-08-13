@@ -3,6 +3,7 @@ layout: layouts/base.njk
 templateClass: tmpl-post
 ---
 <h1 class="title">{{ title }}</h1>
+<span class="read-time"><i>Reading time: {{ content | readingTime }}</i></span>
 <div class="subtitle">
 {% if metadata.config.showDatePost %}<time class="post" datetime="{{ page.date | readableDateString }}">{{ page.date | readableDateString }}</time>{% endif %}
 {%- for tag in tags | filterTagList %}
@@ -10,6 +11,7 @@ templateClass: tmpl-post
 <a class="tag" href="{{ tagUrl | url }}" >{{ tag }}</a>
 {%- endfor %}
 </div>
+<hr/> 
 {{ content | safe }}
 
 {%- if collections.posts %}
