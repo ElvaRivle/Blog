@@ -15,12 +15,12 @@
 		/>
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Elvir&#39;s Blog">
-    <meta property="og:url" content="https://elvarivle.github.com/Blogposts/Local containerized mail server and client/">
+    <meta property="og:url" content="https://elvarivle.github.io/Blogposts/Local containerized mail server and client/">
     <meta property="og:title" content="Local containerized mail server and client">
     <meta property="og:description" content="Configuring mail server and mail client, locally and fully containerized">
 
     <meta property="twitter:card" content="summary">
-    <meta property="twitter:url" content="https://elvarivle.github.com/Blogposts/Local containerized mail server and client/">
+    <meta property="twitter:url" content="https://elvarivle.github.io/Blogposts/Local containerized mail server and client/">
     <meta property="twitter:title" content="Local containerized mail server and client">
     <meta property="twitter:description" content="Configuring mail server and mail client, locally and fully containerized">
   </head>
@@ -36,12 +36,14 @@
 
     <main class="tmpl-post">
       <h1 class="title">Local containerized mail server and client</h1>
+<span class="read-time"><i>Reading time: 2 min</i></span>
 <div class="subtitle">
 <time class="post" datetime="04 Aug 2024">04 Aug 2024</time>
 <a class="tag" href="/Blog/tags/mail-server/" >mail server</a>
 <a class="tag" href="/Blog/tags/mail-client/" >mail client</a>
 <a class="tag" href="/Blog/tags/containerization/" >containerization</a>
 </div>
+<hr/> 
 <p>Does your app require sending and reading mails from the mail server and you don't want to rely on Gmail, Outlook or similar service? This blog post will focus on setting up fully containerized local mail server for sending and reading mails, browser based mail client and seeding mail users upon mail server container startup.</p>
 <h1 id="docker-compose-setup" tabindex="-1">Docker compose setup <a class="direct-link" href="#docker-compose-setup" aria-hidden="true">#</a></h1>
 <p>This setup will use <code>Greenmail</code> as a mail server, <code>Roundcube</code> as a mail client and <code>Postman</code> for seeding the initial users when mail server container starts up.</p>

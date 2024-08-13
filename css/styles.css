@@ -114,3 +114,17 @@ blockquote p {
 .active > a {
   text-decoration: underline;
 }
+
+.read-time {
+  color: #FF6266
+}
+
+#search {
+  border-radius: 10px;
+  height: 28px;
+  padding-left: 10px;
+}
+
+#search:focus {
+  outline: none;
+}
