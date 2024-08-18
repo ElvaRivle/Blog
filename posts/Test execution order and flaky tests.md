@@ -1,6 +1,6 @@
 ---
-title: Test order execution and flaky tests
-description: How test order execution can make the test suite fail
+title: Test execution order and flaky tests
+description: How test execution order can make the test suite fail
 date: 2024-08-18
 tags:
   - flaky tests
