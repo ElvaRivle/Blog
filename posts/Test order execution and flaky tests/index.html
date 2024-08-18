@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test order execution and flaky tests</title>
+    <meta name="description" content="How test order execution can make the test suite fail">
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAACXBIWXMAAA7EAAAOxAGVKw4bAAADyUlEQVR4nO3YsY1TURRF0Wf0m6GJETENkBA5cBsIcmIkC5kySAgQRVADIkITESBMDya4/rPXquBEW+++wwq7Hk8v1loP0zuYdbic301vmLJNDxj2sNZ6Oz2CcdkAPJseAMwRAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAjbpgdwk8e11t/pEeyfAOzT87XWj+kR7J8A7NOfw+XsBcB/8wcAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYdv0AG7y6Xo8/Z4ecQc+HC7nL9Mj9kwA9unl9IA78Xl6wN45ASBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBsmx7ATV6ttX5Nj7gD36cH7J0A7NPXw+X8c3oE++cEgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgDABgLBtegA3eX09nh6nRzwVh8v54/SGKQKwT++nBzwx2QA4ASBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBMACBsmx4w7Nta6830CJjyDyQhIMoCavVzAAAAAElFTkSuQmCC" />
+    <link rel="stylesheet" href="/Blog/css/styles.css">
+    <link rel="alternate" href="/Blog/feed/feed.xml" type="application/atom+xml" title="Elvir&#39;s Blog">
+    <link rel="alternate" href="/Blog/feed/feed.json" type="application/json" title="Elvir&#39;s Blog">
+    <link
+			href="https://unpkg.com/prismjs@1.29.0/themes/prism-okaidia.css"
+			rel="stylesheet"
+		/>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Elvir&#39;s Blog">
+    <meta property="og:url" content="https://elvarivle.github.io/Blogposts/Test order execution and flaky tests/">
+    <meta property="og:title" content="Test order execution and flaky tests">
+    <meta property="og:description" content="How test order execution can make the test suite fail">
+
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://elvarivle.github.io/Blogposts/Test order execution and flaky tests/">
+    <meta property="twitter:title" content="Test order execution and flaky tests">
+    <meta property="twitter:description" content="How test order execution can make the test suite fail">
+  </head>
+  <body>
+    <header>
+        <span class=""><a href="/Blog/">home</a> - </span>
+        <span class=""><a href="/Blog/posts">posts</a> - </span>
+        <span class=""><a href="/Blog/about">about</a> - </span>
+        <span class=""><a href="/Blog/feed/feed.xml">rss</a> - </span>
+        <span class=""><a href="/Blog/search">search</a></span>
+
+    </header>
+
+    <main class="tmpl-post">
+      <h1 class="title">Test order execution and flaky tests</h1>
+<span class="read-time"><i>Reading time: 4 min</i></span>
+<div class="subtitle">
+<time class="post" datetime="18 Aug 2024">18 Aug 2024</time>
+<a class="tag" href="/Blog/tags/flaky-tests/" >flaky tests</a>
+<a class="tag" href="/Blog/tags/test-containers/" >test containers</a>
+</div>
+<hr/> 
+<p>Imagine being in a situation where, once you create a PR, you dread that some random test will sporadically fail and break the entire CI/CD pipeline. Disabling the entire test suite in the pipeline is obviously a no-go, so digging into the test suite configuration to find and fix the root cause is the obvious step. In this case, test suite configuration was handled by an internal library.</p>
+<h1 id="configuration-of-the-test-suite" tabindex="-1">Configuration of the test suite <a class="direct-link" href="#configuration-of-the-test-suite" aria-hidden="true">#</a></h1>
+<p><code>./gradlew test</code> command runs the test suite, which is split into two: regular unit tests and DAL (<em>Data Access Layer</em>) tests, which require a single DB instance with all SQL migrations applied (thank you <a href="https://testcontainers.com/" target="_blank">test containers creators</a>). Unit test classes are configured to run in parallel, while DAL test classes are configured to run sequentially. All test methods in each class execute sequentially.</p>
+<p>All DAL tests extend a certain base class from the internal library which contains a static <code>@BeforeAll</code> method, which runs once for each DAL test class before any of it's tests are executed. It's main function is to instantiate a DB test container and run all SQL migrations if some previous DAL test hasn't done it already. Along with the method, this class also contains a static attribute <code>isDBTestContainerReady</code>, which is set to true once both of those processes are completed. <strong>This is an important detail to remember.</strong></p>
+<h1 id="reproducing-the-issue-locally" tabindex="-1">Reproducing the issue locally <a class="direct-link" href="#reproducing-the-issue-locally" aria-hidden="true">#</a></h1>
+<p>Issue at hand was that the first DAL test to run would fail with a wild <code>TimeoutException</code>. Since the issue was sporadic, test suite needed to be run a few times before the issue popped up. Parallel test execution brought the CPU to it's knees, so this was quite a tedious process. But once the test failed, something interesting happened: <strong>two DB test containers were running</strong>. Extracting the logs from both of them showed absolutely nothing, other than the fact that only one container, the one created later, was used for all tests, while the first one created remained unused.</p>
+<p>The next theory was truly a crazy one. Since the <code>@BeforeAll</code> method was instantiating the test container in a <a href="https://www.javatpoint.com/synchronized-block-example" target="_blank">synchronized</a> block of code, maybe the synchronization wasn't behaving properly. This has quickly proven to be incorrect, since all tests were run by a single thread. Also, the chances that a built-in language functionality doesn't work as expected is extremely low.</p>
+<p>Extracting the logs from both the successful and unsuccessful runs of the tests only revealed that something caused the two test containers to startup. The cause wasn't logged and it was unknown. It was time to dive deeper.</p>
+<h1 id="can-t-debug-no-issues" tabindex="-1">Can't debug? No issues! <a class="direct-link" href="#can-t-debug-no-issues" aria-hidden="true">#</a></h1>
+<p>Running the tests in the debug mode and stopping in the internal library's <code>@BeforeAll</code> method wasn't something that was possible, due to some Gradle and IntelliJ configuration that was tedious to setup. The next step was to modify the internal library by strategically placing the logs with timestamps in the critical parts of the code, building and publishing that library locally and referencing it from the project. Custom logs were then visible when running <code>./gradlew test</code>.</p>
+<p>Custom logs discovered that the new DB test container starts up exactly 10 seconds after the first one has started, while SQL migrations were still being applied to the first container. What gives? Why is the new container starting while the first one hasn't even finished with applying all of the SQL migrations?</p>
+<p>This is the only piece of code where 10 seconds are utilized inside of the <code>@BeforeAll</code> method:</p>
+<pre class="language-kotlin"><code class="language-kotlin">Unreliables<span class="token punctuation">.</span><span class="token function">retryUntilSuccess</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+  Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">300</span><span class="token punctuation">)</span>  
+  <span class="token function">flywayMigrate</span><span class="token punctuation">(</span>jdbcUrl<span class="token punctuation">,</span> username<span class="token punctuation">,</span> password<span class="token punctuation">)</span>  
+<span class="token punctuation">}</span></code></pre>
+<p>Hmm, let's take a look at this <a href="https://github.com/rnorth/duct-tape/blob/2a1c5be9f2ef3f16bf036cec8752a170d130b61e/src/main/java/org/rnorth/ducttape/unreliables/Unreliables.java#L31" target="_blank">retryUntilSuccess</a> from the <code>Unreliables</code> library:</p>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> <span class="token class-name">T</span> <span class="token function">retryUntilSuccess</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token keyword">int</span> timeout<span class="token punctuation">,</span> <span class="token annotation punctuation">@NotNull</span> <span class="token keyword">final</span> <span class="token class-name">TimeUnit</span> timeUnit<span class="token punctuation">,</span> <span class="token annotation punctuation">@NotNull</span> <span class="token keyword">final</span> <span class="token class-name">Callable</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">T</span><span class="token punctuation">></span></span> lambda<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token function">check</span><span class="token punctuation">(</span><span class="token string">"timeout must be greater than zero"</span><span class="token punctuation">,</span> timeout <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">final</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> attempt <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">final</span> <span class="token class-name">Exception</span><span class="token punctuation">[</span><span class="token punctuation">]</span> lastException <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token keyword">null</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">final</span> <span class="token class-name">AtomicBoolean</span> doContinue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicBoolean</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token class-name">Timeouts</span><span class="token punctuation">.</span><span class="token function">getWithTimeout</span><span class="token punctuation">(</span>timeout<span class="token punctuation">,</span> timeUnit<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">{</span>
+                <span class="token keyword">while</span> <span class="token punctuation">(</span>doContinue<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">return</span> lambda<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token comment">// Failed</span>
+                        <span class="token constant">LOGGER</span><span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"Retrying lambda call on attempt {}"</span><span class="token punctuation">,</span> attempt<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        lastException<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> e<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token namespace">org<span class="token punctuation">.</span>rnorth<span class="token punctuation">.</span>ducttape<span class="token punctuation">.</span></span>TimeoutException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>lastException<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token namespace">org<span class="token punctuation">.</span>rnorth<span class="token punctuation">.</span>ducttape<span class="token punctuation">.</span></span>TimeoutException</span><span class="token punctuation">(</span><span class="token string">"Timeout waiting for result with exception"</span><span class="token punctuation">,</span> lastException<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token namespace">org<span class="token punctuation">.</span>rnorth<span class="token punctuation">.</span>ducttape<span class="token punctuation">.</span></span>TimeoutException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            doContinue<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>There it was. The origin of the mysterious <code>TimeoutException</code> is finally found.</p>
+<h1 id="we-now-know-what-but-not-the-why" tabindex="-1">We now know &quot;what?&quot;, but not the &quot;why?&quot; <a class="direct-link" href="#we-now-know-what-but-not-the-why" aria-hidden="true">#</a></h1>
+<p>Applying Flyway SQL migrations to the first DB test container would timeout after 10 seconds. Since no <code>try-catch</code> mechanism was implemented in the <code>@BeforeAll</code> method, <code>TimeoutException</code> would make the <code>@BeforeAll</code> method prematurely exit and <strong>the static attribute <code>isDBTestContainerReady</code> would never be set to true.</strong> Exception would propagate all the way to the JUnit library and it made the test fail, obviously. The next DAL test would come along, it's <code>@BeforeAll</code> would be executed, it would see that <code>isDBTestContainerReady</code> is false and <strong>it would start a new container</strong>. This time, Flyway SQL migrations finished on time, on the new DB test container, no <code>TimeoutException</code> occurred. But it's too late, the first <code>TimeoutException</code> broke everything.</p>
+<p>Now the question remains, <strong>why does the first DAL test timeout on applying Flyway SQL migrations, but the second one doesn't?</strong></p>
+<h3 id="note" tabindex="-1">Note <a class="direct-link" href="#note" aria-hidden="true">#</a></h3>
+<p>Even though <code>TimeoutException</code> occurs, Flyway migrations in this case will continue to run because that's how Java's <a href="https://www.baeldung.com/java-future"><code>Future</code></a> is implemented. Even when timeout happens, function (lambda) passed to it continues to run. More info could be found <a href="https://stackoverflow.com/questions/16231508/does-a-future-timeout-kill-the-thread-execution" target="_blank">here</a>.</p>
+<h1 id="the-why-requires-a-keen-eye" tabindex="-1">The &quot;Why?&quot; requires a keen eye <a class="direct-link" href="#the-why-requires-a-keen-eye" aria-hidden="true">#</a></h1>
+<p>After running the tests about 30-40 times, a pattern started to emerge. Every time when the first DAL test would <strong>start a bit early</strong>, it would fail with a <code>TimeoutException</code>. Let's go back to the beginning, to the test suite configuration. Unit tests run in parallel, right? Parallel execution brings the CPU to it's knees, right? So if the first DAL test starts a bit early while many of the unit tests are running in parallel, <strong>Flyway migrations would run slower</strong>. Slow enough to get over the 10 second mark, since the CPU is struggling. But if the first migration process fails, why doesn't the second one also fail? Simple, many of the unit tests already finished when the second DAL test came along so the CPU isn't stressed as it was. Second initiation of Flyway SQL migration easily passes under 10 seconds.</p>
+<h1 id="resolving-the-issue" tabindex="-1">Resolving the issue <a class="direct-link" href="#resolving-the-issue" aria-hidden="true">#</a></h1>
+<p>In the end, the issue was resolved by increasing the timeout for applying Flyway SQL migrations from 10 to 60 seconds by the library maintainers. This theoretically only postpones the issue, but practically that barrier should never be breached. At least not in a few years.</p>
+<p>Other possible fixes that could be talked and discussed about are:</p>
+<ul>
+<li>Separate DAL tests from unit tests in Gradle
+<ul>
+<li>and run them sequentially/separately</li>
+</ul>
+</li>
+<li>Remove the timeout completely, give Flyway all the time it needs
+<ul>
+<li>only implement a simple attempt count retry mechanism</li>
+</ul>
+</li>
+<li>Keep the timeout, but use attempt count with a back-off strategy</li>
+<li>Make DAL tests run last (implementing custom logic to make the tests pass is not a good design choice)</li>
+</ul>
+
+<hr>
+<ul class="nav"><li><a href="/Blog/posts/Local containerized mail server and client/">< Local containerized mail server and client</a></li>
+</ul>
+
+    </main>
+  </body>
+</html>
