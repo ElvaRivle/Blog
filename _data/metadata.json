@@ -1,6 +1,6 @@
 {
   "title": "Elvir's Blog",
-  "url": "https://elvarivle.github.io/Blog",
+  "url": "https://blog.elvarivle.com",
   "language": "en",
   "description": "Passionate software developer, constantly learning and spreading the gained knowledge",
   "feed": {
@@ -16,7 +16,7 @@
   "author": {
     "name": "Elvir Vlahovljak",
     "email": "elvirvlahovljak@gmail.com",
-    "url": "https://elvarivle.github.io/Blog/about-me/"
+    "url": "https://blog.elvarivle.com/about-me/"
   },
   "nav": [{
     "title": "home",

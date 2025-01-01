@@ -1,0 +1,12 @@
+services:
+  blog:
+    container_name: 'blog'
+    build:
+      context: .
+    pull_policy: build
+    networks:
+      apache-and-reverse-proxy:
+
+networks:
+  apache-and-reverse-proxy:
+    external: true
