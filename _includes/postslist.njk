@@ -1,7 +1,7 @@
 <ul class="nav">
 {% for post in postslist | reverse %}
   <li class="post">
-    {% if metadata.config.showDateList %}&#128467; <time datetime="{{ post.date | readableDateString }}">{{ post.date | readableDateString }}</time><span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span>{% endif %}
+    {% if metadata.config.showDateList %}&#128467; <time datetime="{{ post.date | readableDateString }}">{{ post.date | readableDateString }}</time><span>&nbsp;&nbsp;&middot;&nbsp;</span>{% endif %}
     <a class="title" href="{{ post.url | url }}">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a>
     &nbsp;&nbsp;&middot;&nbsp;&nbsp;
     &#128337; {{ post | readingTime }}
