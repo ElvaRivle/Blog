@@ -4,7 +4,7 @@
     {% if metadata.config.showDateList %}&#128467; <time datetime="{{ post.date | readableDateString }}">{{ post.date | readableDateString }}</time><span>&nbsp;&nbsp;&middot;&nbsp;</span>{% endif %}
     <a class="title" href="{{ post.url | url }}">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a>
     &middot;
-    &#9201; {{ post | readingTime }}
+    &#128337; {{ post | readingTime }}
   </li>
 {% endfor %}
 </ul>
