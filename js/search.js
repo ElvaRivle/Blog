@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         }
         result.forEach((e) => {
           const li = document.createElement('li');
-          li.innerHTML = `<time datetime="${e.date_published?.split("T")[0]}">${e.date_published?.split("T")[0]}</time><span>&nbsp; - &nbsp;</span><a href="${e.url}">${e.title}</a>`;
+          li.innerHTML = `<time datetime="${e.date_published?.split("T")[0]}">${e.date_published?.split("T")[0]}</time><span>&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><a href="${e.url}">${e.title}</a>`;
           results.appendChild(li);
         });
       };
