@@ -1,21 +1,21 @@
 name: Restart Eleventy container
 
-on: workflow_dispatch
+on:
   push:
-   branches:
-     - main
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: pull code and restart container
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_KEY }}
-        script: cd Docker && git pull && docker compose up -d
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: cd Docker && git pull && docker compose up -d
   # build:
   #   runs-on: ubuntu-latest
 
