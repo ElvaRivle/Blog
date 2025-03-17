@@ -6,6 +6,7 @@ tags:
   - mail server
   - mail client
   - containerization
+  - docker
 layout: layouts/post.njk
 ---
 
