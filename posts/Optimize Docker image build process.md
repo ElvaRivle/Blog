@@ -143,7 +143,7 @@ The only aspect where this `Dockerfile` differs from the above one is that the b
 
 > **NOTE**
 > 
-> ❗️ Since Alpine Linux image is very minimalistic, your applications may not work with this image as the base due to missing dependencies. In the case where Alpine doesn't work for you, you can build your own minimalistic base image by exploring topics such as `scratch` image, distroless, `busybox`, `Debian` base image...
+> ❗️ Since Alpine Linux image is very minimalistic, your applications may not work with this image as the base due to missing dependencies and the lack of `glibc`. In the case where pre-existing Alpine image doesn't work for you, you can build your own minimalistic base image by exploring topics such as `scratch` image, distroless, `busybox`, `Debian` base image, or simply add missing dependencies to the base Alpine image itself...
 
 ---
 
