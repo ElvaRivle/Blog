@@ -44,7 +44,7 @@ In the root of the project, in the same place `Dockerfile` is placed, create a `
 
 ```text
 node_modules
-(other files and directories, separated by newline)
+# (other files and directories, separated by newline)
 ```
 
 ---
