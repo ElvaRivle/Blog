@@ -1,10 +1,11 @@
 ---
 title: Optimize Docker image build process
 description: Steps to optimize lengthy Docker image build process and the final image size
-date: 2025-03-16
+date: 2025-03-17
 tags:
   - docker
   - docker image
+  - dockerfile
 layout: layouts/post.njk
 ---
 
@@ -37,13 +38,12 @@ The main points we can take from this `Dockerfile` are following:
 
 ---
 
-The first improvement will focus on the second point from the list, `"all files from the project are copied over"`. Currently, on every image build, the entire `node_modules` directory gets unnecessarily copied with the `COPY . .` command. Why don't we ignore the `node_modules` directory, and possibly some other files/directories that are necessary only for the local development machine (such as local `.env` file or similar)? By doing this, we will significantly reduce the size of the Docker image and reduce the stress on the storage medium. 
+The first improvement will focus on the second point from the list, `"all files from the project are copied over"`. Currently, on every image build, the entire `node_modules` directory gets unnecessarily copied with the `COPY . .` command. Why don't we ignore the `node_modules` directory, and possibly some other files/directories that are necessary only for the local development machine? By doing this, we will significantly reduce the size of the Docker image and reduce the stress on the storage medium. 
 
 In the root of the project, in the same place `Dockerfile` is placed, create a `.dockerignore` file with the following content:
 
 ```text
 node_modules
-.env
 (other files and directories, separated by newline)
 ```
 
@@ -83,7 +83,7 @@ Now, if we don't touch `package.json`, the caches made from `COPY ./package.json
 
 ```text
 => CACHED [3/7] COPY ./package.json ./ 0.0s
-=> CACHED [4/7] RUN yarn
+=> CACHED [4/7] RUN yarn 0.0s
 ```
 
 > **NOTE**
@@ -139,7 +139,7 @@ RUN yarn build && yarn global add serve
 CMD serve -s build -p 80
 ```
 
-The only aspect where this `Dockerfile` differs from the above one is that the base image is now `node:20-alpine`, instead of `node:20`. `node:20-alpine` is measly 45 MB in size, compared to 370 MB of regular `node:20` image. You can read more about the Alpine Linux project [here](https://alpinelinux.org/about/). 
+The only aspect where this `Dockerfile` differs from the above one is that the base image is now `node:20-alpine`, instead of `node:20`. `node:20-alpine` is measly 45 MB in size, compared to 370 MB of regular `node:20` image. You can read more about the Alpine Linux project [here](https://alpinelinux.org/about/). Many mainstream base images that are at our disposal have a regular version and some minified version, like `-slim` and `-alpine` as suffixes.
 
 > **NOTE**
 > 
@@ -194,10 +194,10 @@ Number don't lie, let's take a look at build times and final image sizes (image 
   - 225 seconds
   - 1.95 GB
 - Fourth version (smaller base image)
-  - 
-  - 
+  - 347 seconds
+  - 990 MB
 - Fifth version (multi-stage build)
-  - 
-  - 
+  - 295 seconds
+  - 172 MB
 
-We can clearly see that some techniques improve speed of build process, while others reduce the final image size. They are all small changes to the `Dockerfile` by themselves, but cumulated, they result in significant improvements. In the end, the speed of image building process was reduced by X%, while the size of the final image dropped by whooping X%.  This is a very powerful showcase of how small changes can sometimes cause significant positive impact on a large scheme of things. 
+We can clearly see that some techniques improve the speed of build process, while others reduce the final image size. They are all small changes to the `Dockerfile` by themselves, but cumulated, they result in significant improvements. The size of the final image dropped by whooping 93%, while the speed of image building depends on factors such as cache re-use from the previous builds and current system load, so it cannot be precisely measured. The second version of the `Dockerfile` probably showcases the best technique that affects the image build process speed (36% reduction). In the end, this goes on to show how many small changes can cause significant positive impact on a large scheme of things, a rule that applies to life in general. 
