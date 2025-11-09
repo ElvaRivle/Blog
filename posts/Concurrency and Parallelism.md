@@ -29,7 +29,7 @@ You are making a simple breakfast and you need to do two things: make "sunny sid
 
 **Making a cup of coffee**
 1. Put water in an electric kettle
-2. Put instant coffee in the cup
+2. When water boils, put instant coffee in the cup
 3. Pour hot water into the cup
 4. Add sugar
 5. Stir
@@ -90,7 +90,7 @@ Your family member or significant other is not at home. You are alone once again
 9. You put eggs in the pan
 10. You cover the pan with a lid
 11. **You don't just stand there waiting for eggs to be done**
-12. As soon as you covered the pan, you notice that the water has boiled
+12. As soon as you cover the pan, you notice that the water has boiled
 13. You pour water in the cup
 14. You add sugar
 15. You stir the coffee
@@ -130,16 +130,16 @@ Your family member or significant other is at home again and this time both of y
 
 - The kitchen represents the hardware, it can only fit N people (CPU cores or hardware threads)
 - If there are multiple kitchens, that represents multiple CPUs in a system
-- The people represent software threads, they want to work but can only enter the kitchen if there’s space
-- When a person steps out because they’re waiting (e.g., for oil to heat), someone else can step in, that’s concurrency. That person can also not step out, but immediately start something else instead
-- If multiple people are cooking at the same time, that’s parallelism
+- The people represent software threads, they want to work but can only enter the kitchen if there’s enough space
+- When a person steps out because they’re waiting (e.g., for oil to heat up), someone else can step in, that’s concurrency. That person can also not step out, but immediately start something else instead
+- If multiple people are working at the same time, that’s parallelism
 
-In short, concurrency helps you keep busy while waiting, which will improve latency and utilization, while parallelism helps you truly do things at the same time, which will increase throughput. They don't exclude one another, they are complementary.
+In short, concurrency helps keeping you busy while waiting, which will improve latency and utilization, while parallelism helps you truly do things at the same time, which will increase throughput. They don't exclude one another, they are complementary.
 Together, they maximize efficiency, whether you’re making breakfast or building software.
 
 # Additional Details
 
-- Explained above, where a person notices that something in the kitchen is done, is cooperative concurrency. There exists preemptive concurrency as well, where you get put on a pause even when you are not supposed to wait for anything. But in our kitchen example, that could cause burnt eggs, oil catching fire... More on this topic [here](https://stackoverflow.com/a/55703529)
+- Explained above, where a person notices that something in the kitchen is done and only then switches to that task, is cooperative concurrency. There exists a preemptive concurrency as well, where you get put on a pause even when you are not supposed to wait for anything. But in our kitchen example, that could cause burnt eggs, oil catching fire... More on this topic [here](https://stackoverflow.com/a/55703529)
 - The people not only represent software threads, but can also represent virtual threads, coroutines, goroutines, async tasks...
 - Parallelism primarily boosts throughput for CPU-bound work. Concurrency primarily reduces latency and keeps systems responsive, especially for I/O-bound workload (database and network calls)
 - Some parallelism is possible even on a single physical core, via simultaneous multithreading ([Hyper‑Threading](https://superuser.com/a/122571)) and via vector units ([SIMD](https://celerdata.com/glossary/single-instruction-multiple-data-simd)). Keep in mind that both are very limited compared to multiple cores
