@@ -9,12 +9,6 @@ tags:
 layout: layouts/post.njk
 ---
 
-Java 21 introduced virtual threads, Kotlin has coroutines, Golang has goroutines, C# has async/await, JS has an event loop... In order to use all of them properly, we need to understand the underlying mechanisms that they all share: concurrency and parallelism.
-
-Fun fact: I was asked this question on my first ever interview and I had no idea how to answer it. Don't be like me, leave a better impression by reading this post
-
-Concurrency and/vs Parallelism
-
 TL;DR  
 **Parallelism** – actually doing multiple things at the same time (requires multiple execution units - CPUs, cores, hardware threads...)
 **Concurrency** – dealing with multiple things by switching between them efficiently (may or may not happen simultaneously)
@@ -92,7 +86,7 @@ Your family member or significant other is not at home. You are alone once again
 5. You put water in an electric kettle
 6. **You don't just stand there waiting for water to boil**
 7. You put coffee in the cup
-8. While water is heating up and as soon as you put coffee in the cup, you notice that the oil had heated up
+8. While water is heating up and as soon as you put coffee in the cup, you notice that the oil has heated up
 9. You put eggs in the pan
 10. You cover the pan with a lid
 11. **You don't just stand there waiting for eggs to be done**
@@ -124,7 +118,7 @@ Your family member or significant other is at home again and this time both of y
 8. The other person puts sugar in the cup
 9. The other person is stirring the coffee
 10. The coffee is done
-11. Let's say the eggs are **not** done yet. Since there is nothing else to be done, there is some time spent waiting and doing nothing (again this is not *"wasted time"*)
+11. Let's say the eggs are **not** done yet. Since there is nothing else to be done, there is some time spent waiting and doing nothing (again, this is not *"wasted time"*)
 12. After some time, you notice that the eggs are done
 13. You remove the pan from the stove
 
@@ -145,9 +139,10 @@ Together, they maximize efficiency, whether you’re making breakfast or buildin
 
 # Additional Details
 
-- Explained above, where a person notices that something in the kitchen is done, is cooperative concurrency. There exists preemptive concurrency as well, where you get put on a pause even when you are not supposed to wait for anything. But in our kitchen example, that could cause burnt eggs, oil catching fire...
-- The people not only represent software threads, but can also represent Green Threads, coroutines, goroutines, async tasks...
+- Explained above, where a person notices that something in the kitchen is done, is cooperative concurrency. There exists preemptive concurrency as well, where you get put on a pause even when you are not supposed to wait for anything. But in our kitchen example, that could cause burnt eggs, oil catching fire... More on this topic [here](https://stackoverflow.com/a/55703529)
+- The people not only represent software threads, but can also represent virtual threads, coroutines, goroutines, async tasks...
 - Parallelism primarily boosts throughput for CPU-bound work. Concurrency primarily reduces latency and keeps systems responsive, especially for I/O-bound workload (database and network calls)
-- Some parallelism is possible even on a single physical core, via simultaneous multithreading (Hyper‑Threading) and via vector units (SIMD). Keep in mind that both are very limited compared to multiple cores
-- Many frameworks used for backend web development utilize thread pools in order to decrease the time spent creating OS/software threads on the spot (creating them every time is very costly)
+- Some parallelism is possible even on a single physical core, via simultaneous multithreading ([Hyper‑Threading](https://superuser.com/a/122571)) and via vector units ([SIMD](https://celerdata.com/glossary/single-instruction-multiple-data-simd)). Keep in mind that both are very limited compared to multiple cores
+- There exists a concept called [**thread pool**](https://softwareengineering.stackexchange.com/a/173581), which includes creating N amount of OS/software threads and utilizing them when necessary, instead of creating new threads on demand, since creating them is a costly operation
 - Perfect example of a system which is concurrent, but not parallel by default is [JavaScript's event loop](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
+- Beautiful presentation about coroutines, Kotlin's concurrency model can be found [here](https://www.youtube.com/watch?v=e7tKQDJsTGs)
