@@ -6,14 +6,15 @@ tags:
   - concurrency
   - parallelism
   - operating system
+  - kernel
 layout: layouts/post.njk
 ---
 
-TL;DR  
-**Parallelism** – actually doing multiple things at the same time (requires multiple execution units - CPUs, cores, hardware threads...)  
+TL;DR
+**Parallelism** – actually doing multiple things at the same time (requires multiple execution units - CPUs, cores, hardware threads...)
 **Concurrency** – dealing with multiple things by switching between them efficiently (may or may not happen simultaneously)
 
-In real systems, concurrency is a software-level concept (managed by scheduling or async programming), while parallelism depends on hardware capabilities. 
+In real systems, concurrency is a software-level concept (managed by scheduling or async programming), while parallelism depends on hardware capabilities.
 
 # Real World Example
 
