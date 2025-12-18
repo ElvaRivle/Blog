@@ -10,7 +10,7 @@ tags:
 layout: layouts/post.njk
 ---
 
-TL;DR
+TL;DR  
 **Parallelism** – actually doing multiple things at the same time (requires multiple execution units - CPUs, cores, hardware threads...)  
 **Concurrency** – dealing with multiple things by switching between them efficiently (may or may not happen simultaneously)
 
