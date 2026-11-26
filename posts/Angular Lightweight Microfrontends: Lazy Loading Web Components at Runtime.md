@@ -1,7 +1,7 @@
 ---
 title: "Angular Lightweight Microfrontends: Lazy Loading Web Components at Runtime"
 description: Lazy loading of Angular components during runtime execution
-date: 2026-11-27
+date: 2026-11-26
 tags:
   - Angular
   - microfrontend
