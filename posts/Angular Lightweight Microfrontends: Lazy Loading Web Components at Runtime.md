@@ -1,7 +1,7 @@
 ---
 title: "Angular Lightweight Microfrontends: Lazy Loading Web Components at Runtime"
 description: Lazy loading of Angular components during runtime execution
-date: 2026-11-26
+date: 2026-11-27
 tags:
   - Angular
   - microfrontend
@@ -74,7 +74,7 @@ Most important details are the following:
     - `LazyElementsDirective`'s responsibility is to download the *main.js* file, but only when absolutely necessary, adds `beforeLoad` and `afterLoad` lifecycle hooks to the reusable component and allows property binding and event listeners
     - `CUSTOM_ELEMENTS_SCHEMA` makes Angular not complain in case it comes across an unknown component, which our reusable component initially is, before it gets loaded and registered. But this also relaxes template validation, so use this only when strictly necessary
 - Configure proxy, more info below
-- Load and rendering the component inside HTML, more info below
+- Load and render the component inside HTML, more info below
 
 Run `npm run start` and play around. 
 
@@ -128,11 +128,9 @@ One last important detail is about passing input to the reusable component. You 
 Lazy loading in a way shown above also allows us to write `ng-template` elements in case where component loading fails, or display something (spinner for example) while the component is loading. Both of these are supported out of the box. This can be achieved with the following structure:
 
 ```
-<ng-template>
-    <ng-template #loading>Spinner</ng-template>
-    <ng-template #error>Error</ng-template>
-    <custom-component *axLazyElement="..."; loadingTemplate: loading; errorTemplate: error;></custom-component>
-</ng-template>
+<ng-template #loading>Spinner</ng-template>
+<ng-template #error>Error</ng-template>
+<custom-component *axLazyElement="...; loadingTemplate: loading; errorTemplate: error;"></custom-component>
 ```
 
 # How This Might Look Like in Prod Environment
@@ -141,16 +139,16 @@ Once built, *main.js* could be served behind NGINX from a pod in Kubernetes runn
 
 So in a nutshell, it boils down to a single HTTP call, which should be fairly trivial in any architecture (ignoring caching, authN, authZ, CDN...). 
 
-# What About Versioning, Contract Braking Changes and More?
+# What About Versioning and Contract-Breaking Changes?
 
-This is a very important topic to discuss, and it completely depends the scope of component's usage.
+This is a very important topic to discuss, and it completely depends on the scope of component's usage.
 
-If the component is used internally at a company, either within a single team or group of teams, semantic versioning might be an overkill. Publish JS files under major version only (e.g. */qr-display/1/main.js*), override the version for simple bug fixes and improvements and reserve major version bump only for contract changing (input and output signals), or when behavior changes significantly. 
+If the component is used internally at a company, either within a single team or group of teams, semantic versioning might be an overkill. Publish JS files under major version only (e.g. */qr-display/1/main.js*), override the version for simple bug fixes and improvements and reserve major version bump only for contract-changing (input and output signals), or when behavior changes significantly. 
 
 On the other hand, if the component will be used by a wider audience, semantic versioning might make more sense:
 - **major** - contract braking changes and potentially non-backward changes in behavior
-- **minor** - new backwards compatible behavior
-- **patch** - backwards compatible bug fixes
+- **minor** - new backwards-compatible behavior
+- **patch** - backwards-compatible bug fixes
 
 Regardless of the strategy, always remember: **contract changes require new major version**. 
 
@@ -162,7 +160,7 @@ The biggest drawbacks of this approach are the following:
 1. The generated bundle can include Angular runtime dependencies, so the result is one or more additional Angular runtimes at the same time. Due to this, if running older *zone.js* based Angular apps, it's important to disable *zone.js* from reusable component's polyfill, since no multiple zones can co-exist
 2. Input and output binding is not trivial, due to mixture of kebab and camel cases, timing, complex types and losing the type of the output from component (it gets converted to native `CustomEvent`)
 3. CSS leakage could occur and styles could end up not applying properly
-4. If *outputHash* is disabled, browser could potentially keep the stale *main.js* file, if cache is not set up properly
+4. If `outputHashing` is disabled, browser could potentially keep the stale *main.js* file, if cache is not set up properly
 
 Potential other solutions to this approach are:
 
