@@ -22,7 +22,7 @@ The idea will be showcased with a simple QR code generator app. It will consist 
 2. NGINX Docker container will serve the *main.js* file built from the reusable component
 3. Host application will lazily load the *main.js* and render the component only when user wants it. It will also expose textbox for entering the text upon which QR code will be generated
 
-Source code of the entire project and corresponding *README* files can be located [here]().
+Source code of the entire project and corresponding *README* files can be located [here](https://github.com/ElvaRivle/Angular-Lightweight-Component-Based-Microfrontend-Blog).
 
 > **NOTE**
 > 
@@ -139,7 +139,21 @@ Lazy loading in a way shown above also allows us to write `ng-template` elements
 
 Once built, *main.js* could be served behind NGINX from a pod in Kubernetes running under a certain namespace. SPA in another namespace could access it, but communication needs to be setup properly (*HTTPRoute* with *ReferenceGrant* for example). *proxy.conf.js* that we mentioned earlier is only for local development. 
 
-# What About Versioning, Contract Braking Upgrades and More?
+So in a nutshell, it boils down to a single HTTP call, which should be fairly trivial in any architecture (ignoring caching, authN, authZ, CDN...). 
+
+# What About Versioning, Contract Braking Changes and More?
+
+This is a very important topic to discuss, and it completely depends the scope of component's usage.
+
+If the component is used internally at a company, either within a single team or group of teams, semantic versioning might be an overkill. Publish JS files under major version only (e.g. */qr-display/1/main.js*), override the version for simple bug fixes and improvements and reserve major version bump only for contract changing (input and output signals), or when behavior changes significantly. 
+
+On the other hand, if the component will be used by a wider audience, semantic versioning might make more sense:
+- **major** - contract braking changes and potentially non-backward changes in behavior
+- **minor** - new backwards compatible behavior
+- **patch** - backwards compatible bug fixes
+
+Regardless of the strategy, always remember: **contract changes require new major version**. 
+
 
 # Drawbacks and Other Potential Solutions
 
